@@ -1,4 +1,5 @@
 ﻿using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Data;
+using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Disposables;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         public struct Ctx
         {
             public CreateBallData CreateBallData;
+            public BallsCaughtReactive BallsCaughtReactive;
         }
 
         private readonly BallViewReactive _ballViewReactive = new();
@@ -27,7 +29,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             AddDisposable(new BallModel(new BallModel.Ctx
             {
                 BallInfo = Context.CreateBallData.BallInfo,
-                BallViewReactive = _ballViewReactive
+                BallViewReactive = _ballViewReactive,
+                BallsCaughtReactive = Context.BallsCaughtReactive
             }));
         }
 

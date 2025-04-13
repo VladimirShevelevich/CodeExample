@@ -32,6 +32,7 @@ namespace _App.Scripts.Content
     {
         public BallView Prefab;
         public float LifeTime;
+        public int ScoreReward;
     }
 
     [Serializable]
