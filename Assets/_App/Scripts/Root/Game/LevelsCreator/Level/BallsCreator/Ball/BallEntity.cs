@@ -20,7 +20,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         private void CreateView()
         {
             var prefab = Context.CreateBallData.BallInfo.Prefab;
-            var view = Object.Instantiate(prefab);
+            var position = new Vector3(Context.CreateBallData.Position.x, 0, Context.CreateBallData.Position.y);
+            var view = Object.Instantiate(prefab, position, Quaternion.identity);
             view.SetCtx(new BallView.Ctx());
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }

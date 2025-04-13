@@ -12,6 +12,7 @@ namespace _App.Scripts.Content
     public class BallsSpawnContent : ScriptableObject
     {
         [field: SerializeField] public float SpawnInterval { get; private set; }
+        [field: SerializeField] public BallsSpawnArea SpawnArea { get; private set; }
         [field: SerializeField] private List<CustomKeyValuePair<BallType, BallInfo>> BallInfos;
 
         public BallInfo GetBallInfoByType(BallType ballType)
@@ -29,5 +30,12 @@ namespace _App.Scripts.Content
     public struct BallInfo
     {
         public BallView Prefab;
+    }
+
+    [Serializable]
+    public struct BallsSpawnArea
+    {
+        public float Wight;
+        public float Height;
     }
 }
