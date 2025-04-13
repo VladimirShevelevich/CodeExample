@@ -1,7 +1,9 @@
 ﻿using System;
 using _App.Scripts.Content;
 using _App.Scripts.Tools.Core;
+using _App.Scripts.Tools.Reactive;
 using UniRx;
+using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
 {
@@ -18,6 +20,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         public BallModel(Ctx ctx)
         {
             _ctx = ctx;
+            AddDisposable(_ctx.BallViewReactive.OnClicked.Subscribe(OnClicked));
             SetHiding();
         }
 
@@ -27,6 +30,11 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             {
                 _ctx.BallViewReactive.HideTrigger.Notify();
             }));
+        }
+
+        private void OnClicked()
+        {
+            Debug.Log("Clicked");                
         }
     }
 }

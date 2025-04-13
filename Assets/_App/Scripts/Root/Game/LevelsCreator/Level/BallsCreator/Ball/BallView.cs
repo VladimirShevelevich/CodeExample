@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
 {
@@ -24,6 +25,11 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             transform.DOScale(0, 0.1f).
                 OnComplete(()=> gameObject.SetActive(false)).
                 SetLink(gameObject);
+        }
+
+        void OnMouseDown()
+        {
+            _ctx.BallViewReactive.OnClicked.Notify();
         }
     }
 }
