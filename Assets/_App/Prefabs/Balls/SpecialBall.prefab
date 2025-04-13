@@ -54,10 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 54eccc2d83422d54fa8bd8c54bbf785c, type: 2}
     - target: {fileID: 6858779179225269500, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
       propertyPath: m_Name
-      value: BallBase Variant
+      value: SpecialBall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2095287718881592680, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
