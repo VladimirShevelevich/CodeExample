@@ -22,7 +22,10 @@ namespace _App.Scripts.Root
 
         private void CreateGameEntity()
         {
-            CreateEntity<GameEntity, GameEntity.Ctx>(new GameEntity.Ctx());
+            CreateEntity<GameEntity, GameEntity.Ctx>(new GameEntity.Ctx
+            {
+                Canvas = Context.UiCanvas
+            });
         }
     }
 }

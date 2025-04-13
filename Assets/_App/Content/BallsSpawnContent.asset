@@ -22,7 +22,9 @@ MonoBehaviour:
     Value:
       Prefab: {fileID: 550255214016883088, guid: 8cbc70227452bda43b62249b717f984d, type: 3}
       LifeTime: 3
+      ScoreReward: 1
   - Key: 1
     Value:
       Prefab: {fileID: 1577210824996854726, guid: 9d04c877298ca284ca18821e61d6690d, type: 3}
       LifeTime: 1
+      ScoreReward: 5

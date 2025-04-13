@@ -2,6 +2,7 @@
 using _App.Scripts.Root.Game.LevelsCreator.Level;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
+using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator
 {
@@ -10,6 +11,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         public struct Ctx
         {
             public LevelConfig[] LevelsConfigs;
+            public Transform Canvas;
         }
 
         private readonly ReactiveEvent<int> _loadLevelByIndex = new();
@@ -37,7 +39,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator
             var levelConfig = Context.LevelsConfigs[index];
             CreateEntity<LevelEntity, LevelEntity.Ctx>(new LevelEntity.Ctx
             {
-                LevelConfig = levelConfig
+                LevelConfig = levelConfig,
+                Canvas = Context.Canvas
             });
         }
     }
