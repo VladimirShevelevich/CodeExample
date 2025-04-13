@@ -12,10 +12,5 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         {
             AddDisposable(HideTrigger);
         }
-
-        private void Hide()
-        {
-            
-        }
     }
 }

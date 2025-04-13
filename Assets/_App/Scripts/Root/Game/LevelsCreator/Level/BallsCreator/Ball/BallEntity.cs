@@ -18,7 +18,17 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         {
             AddDisposable(_ballViewReactive);
             
+            CreateModel();
             CreateView();
+        }
+
+        private void CreateModel()
+        {
+            AddDisposable(new BallModel(new BallModel.Ctx
+            {
+                BallInfo = Context.CreateBallData.BallInfo,
+                BallViewReactive = _ballViewReactive
+            }));
         }
 
         private void CreateView()
