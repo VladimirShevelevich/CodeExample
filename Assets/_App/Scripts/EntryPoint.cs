@@ -18,7 +18,7 @@ namespace _App.Scripts
 
         private void CreateRootEntity()
         {
-            _rootEntity = RootEntity.CreateEntityManually<RootEntity, RootEntity.Context>(new RootEntity.Context
+            _rootEntity = RootEntity.CreateEntityManually<RootEntity, RootEntity.Ctx>(new RootEntity.Ctx
             {
                 ContentProvider = _contentProvider,
                 UiCanvas = _uiCanvas

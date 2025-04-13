@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace _App.Scripts.Root
 {
-    public class RootEntity : BaseEntity<RootEntity.Context>
+    public class RootEntity : BaseEntity<RootEntity.Ctx>
     {
-        public struct Context
+        public struct Ctx
         {
             public ContentProvider ContentProvider;
             public Transform UiCanvas;
@@ -15,12 +15,14 @@ namespace _App.Scripts.Root
         
         protected override void Initialize()
         {
+            Container.Register(Context.ContentProvider);
+            
             CreateGameEntity();
         }
 
         private void CreateGameEntity()
         {
-            CreateEntity<GameEntity, GameEntity.Context>(new GameEntity.Context());
+            CreateEntity<GameEntity, GameEntity.Ctx>(new GameEntity.Ctx());
         }
     }
 }

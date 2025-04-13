@@ -1,0 +1,43 @@
+﻿using System;
+using _App.Scripts.Content;
+using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Data;
+using _App.Scripts.Tools.Core;
+using _App.Scripts.Tools.Reactive;
+using UniRx;
+using Random = UnityEngine.Random;
+
+namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
+{
+    public class BallsCreatorModel : BaseDisposable
+    {
+        public struct Ctx
+        {
+            public ReactiveEvent<CreateBallData> CreateBall;
+            
+            public BallsSpawnContent BallsSpawnContent;
+        }
+
+        private readonly Ctx _ctx;
+
+        public BallsCreatorModel(Ctx ctx)
+        {
+            _ctx = ctx;
+            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(_ctx.BallsSpawnContent.SpawnInterval)).Repeat().Subscribe(_ =>
+            {
+                CreateNewBall();
+            }));
+            CreateNewBall();
+        }
+
+        private void CreateNewBall()
+        {
+            var randomValue = Random.value;
+            var newBallType = randomValue > 0.1 ? BallType.Regular : BallType.Special;
+            var ballInfo = _ctx.BallsSpawnContent.GetBallInfoByType(newBallType);
+            _ctx.CreateBall.Notify(new CreateBallData
+            {
+                BallInfo = ballInfo
+            });
+        }
+    }
+}

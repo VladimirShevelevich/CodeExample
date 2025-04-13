@@ -2,13 +2,13 @@
 {
     public abstract class BaseEntity<TCtx> : BaseDisposable
     {
-        protected TCtx Ctx {get; private set; }
+        protected TCtx Context {get; private set; }
         protected Container Container {get; private set; }
 
         private void SetCtx(TCtx ctx, Container parentContainer = null, bool useAutoResolve = true)
         {
             Container = new Container(parentContainer);
-            Ctx = ctx;
+            Context = ctx;
             
             Initialize();
         }
