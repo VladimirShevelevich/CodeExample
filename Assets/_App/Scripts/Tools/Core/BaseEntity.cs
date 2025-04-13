@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using UniRx;
-
-namespace _App.Scripts.Tools.Core
+﻿namespace _App.Scripts.Tools.Core
 {
     public abstract class BaseEntity<TCtx> : BaseDisposable
     {
-        protected TCtx Context {get; private set; }
+        protected TCtx Ctx {get; private set; }
         protected Container Container {get; private set; }
 
         private void SetCtx(TCtx ctx, Container parentContainer = null, bool useAutoResolve = true)
         {
             Container = new Container(parentContainer);
-            Context = ctx;
+            Ctx = ctx;
             
             Initialize();
         }
@@ -24,6 +20,16 @@ namespace _App.Scripts.Tools.Core
             var newEntity = new TEntity();
             newEntity.SetCtx(ctx, Container);
             AddDisposable(newEntity);
+            return newEntity;
+        }
+        
+        /// <summary>
+        /// for the creation outside of the composition root
+        /// </summary>
+        public static TEntity CreateEntityManually<TEntity, UCtx>(UCtx ctx) where TEntity : BaseEntity<UCtx>, new()
+        {
+            var newEntity = new TEntity();
+            newEntity.SetCtx(ctx);
             return newEntity;
         }
     }
