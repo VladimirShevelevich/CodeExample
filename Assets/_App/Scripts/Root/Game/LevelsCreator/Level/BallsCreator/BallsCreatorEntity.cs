@@ -42,7 +42,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
             var entity = CreateEntity<BallEntity, BallEntity.Ctx>(new BallEntity.Ctx
             {
                 CreateBallData = createBallData,
-                BallsCaughtReactive = Container.Resolve<BallsCaughtReactive>()
+                BallsCaughtReactive = Container.Resolve<BallsCaughtReactive>(),
+                LevelStateReactive = Container.Resolve<LevelStateReactive>()
             });
             var lifeTime = createBallData.BallInfo.LifeTime;
             AddDisposable(Observable.Timer(TimeSpan.FromSeconds(lifeTime+3)).Subscribe(_ =>

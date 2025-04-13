@@ -11,6 +11,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
         {
             public BallsCaughtReactive BallsCaughtReactive;
             public ScoresReactive ScoresReactive;
+            public int ScoreGoal;
         }
 
         protected override void Initialize()
@@ -26,6 +27,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
         private void AddScore(int score)
         {
             Context.ScoresReactive.CurrentScore.Value += score;
+            if (Context.ScoresReactive.CurrentScore.Value >= Context.ScoreGoal)
+                Context.ScoresReactive.OnScoreGoalCompleted.Notify();
         }
     }
 }

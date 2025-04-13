@@ -10,8 +10,10 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
     {
         public struct Ctx
         {
-            public CreateBallData CreateBallData;
             public BallsCaughtReactive BallsCaughtReactive;
+            public LevelStateReactive LevelStateReactive;
+            
+            public CreateBallData CreateBallData;
         }
 
         private readonly BallViewReactive _ballViewReactive = new();
@@ -30,7 +32,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             {
                 BallInfo = Context.CreateBallData.BallInfo,
                 BallViewReactive = _ballViewReactive,
-                BallsCaughtReactive = Context.BallsCaughtReactive
+                BallsCaughtReactive = Context.BallsCaughtReactive,
+                LevelStateReactive = Context.LevelStateReactive
             }));
         }
 

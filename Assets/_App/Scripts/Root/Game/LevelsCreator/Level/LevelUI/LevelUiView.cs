@@ -18,12 +18,13 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         
         [SerializeField] private GameObject _startingView;
         [SerializeField] private GameObject _playingView;
+        [SerializeField] private GameObject _winView;
+        [SerializeField] private GameObject _failingView;
         
         public struct Ctx
         {
             public ScoresReactive ScoresReactive;
             public LevelTimeReactive LevelTimeReactive;
-            public LevelUiTriggersReactive LevelUiTriggersReactive;
             public LevelStateReactive LevelStateReactive;
             public int ScoreGoal;
         }
@@ -38,29 +39,31 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             _ctx.LevelTimeReactive.TimeLeft.Subscribe(SetTimerText).AddTo(this);
             
             _playButton.OnClickAsObservable().Subscribe(_=> OnPlayClick()).AddTo(this);
-            //_nextLevelButton.OnClickAsObservable().Subscribe(_=> OnNextLevelClick()).AddTo(this);
-            //_restartButton.OnClickAsObservable().Subscribe(_=> OnRestartClick()).AddTo(this);
+            _nextLevelButton.OnClickAsObservable().Subscribe(_=> OnNextLevelClick()).AddTo(this);
+            _restartButton.OnClickAsObservable().Subscribe(_=> OnRestartClick()).AddTo(this);
         }
 
         private void SetPlayStateView(LevelEntity.LevelState levelState)
         {
             _startingView.SetActive(levelState == LevelEntity.LevelState.Start);
             _playingView.SetActive(levelState == LevelEntity.LevelState.Play);
+            _winView.SetActive(levelState == LevelEntity.LevelState.Win);
+            _failingView.SetActive(levelState == LevelEntity.LevelState.Fail);
         }
 
         private void OnPlayClick()
         {
-            _ctx.LevelUiTriggersReactive.PlayTrigger.Notify();
+            _ctx.LevelStateReactive.PlayTrigger.Notify();
         }
 
         private void OnNextLevelClick()
         {
-            _ctx.LevelUiTriggersReactive.NextLevelTrigger.Notify();
+            _ctx.LevelStateReactive.NextLevelTrigger.Notify();
         }
 
         private void OnRestartClick()
         {
-            _ctx.LevelUiTriggersReactive.RestartTrigger.Notify();
+            _ctx.LevelStateReactive.RestartTrigger.Notify();
         }
 
         private void SetScoreText(int score)

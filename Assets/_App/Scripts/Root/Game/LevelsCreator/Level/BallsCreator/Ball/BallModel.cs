@@ -14,6 +14,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         {
             public BallViewReactive BallViewReactive;
             public BallsCaughtReactive BallsCaughtReactive;
+            public LevelStateReactive LevelStateReactive;
             public BallInfo BallInfo;
         }
 
@@ -31,7 +32,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         {
             AddDisposable(Observable.Timer(TimeSpan.FromSeconds(_ctx.BallInfo.LifeTime)).Subscribe(_ =>
             {
-                _ctx.BallViewReactive.HideTrigger.Notify();
+                if (!_wasClicked)
+                    _ctx.BallViewReactive.HideTrigger.Notify();
             }));
         }
 
@@ -40,7 +42,11 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             if(_wasClicked)
                 return;
             
+            if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
+                return;
+            
             _ctx.BallsCaughtReactive.OnCaught.Notify(_ctx.BallInfo);
+            _ctx.BallViewReactive.HideTrigger.Notify();
             _wasClicked = true;
         }
     }

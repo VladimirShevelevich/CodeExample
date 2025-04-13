@@ -28,8 +28,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         private readonly BallsCaughtReactive _ballsCaughtReactive = new();
         private readonly ScoresReactive _scoresReactive = new();
         private readonly LevelTimeReactive _levelTimeReactive = new();
-        private readonly LevelStateReactive _levelStateReactive = new();
-        private readonly LevelUiTriggersReactive _levelUiTriggersReactive = new();
         
         protected override void Initialize()
         {
@@ -48,8 +46,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             AddDisposable(new LevelModel(new LevelModel.Ctx
             {
                 LevelTimeReactive = _levelTimeReactive,
-                LevelStateReactive = _levelStateReactive,
-                LevelUiTriggersReactive = _levelUiTriggersReactive
+                LevelStateReactive = Container.Resolve<LevelStateReactive>(),
+                ScoresReactive = _scoresReactive
             }));
         }
 
@@ -58,7 +56,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             CreateEntity<ScoreControllerEntity, ScoreControllerEntity.Ctx>(new ScoreControllerEntity.Ctx
             {
                 BallsCaughtReactive = _ballsCaughtReactive,
-                ScoresReactive = _scoresReactive
+                ScoresReactive = _scoresReactive,
+                ScoreGoal = Context.LevelConfig.ScoreGoal
             });
         }
 
@@ -80,8 +79,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
                 UiContent = Container.Resolve<ContentProvider>().UiContent,
                 Canvas = Context.Canvas,
                 ScoreGoal = Context.LevelConfig.ScoreGoal,
-                LevelUiTriggersReactive = _levelUiTriggersReactive,
-                LevelStateReactive = _levelStateReactive
+                LevelStateReactive = Container.Resolve<LevelStateReactive>()
             });
         }
 
@@ -91,7 +89,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             {
                 LevelTimeReactive = _levelTimeReactive,
                 LevelConfig = Context.LevelConfig,
-                LevelStateReactive = _levelStateReactive
+                LevelStateReactive = Container.Resolve<LevelStateReactive>()
             });
         }
 
@@ -99,7 +97,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             Container.Register(_ballsCaughtReactive);
             Container.Register(_scoresReactive);
-            Container.Register(_levelStateReactive);
         }
 
         private void MarkDisposables()
@@ -107,8 +104,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             AddDisposable(_ballsCaughtReactive);
             AddDisposable(_scoresReactive);
             AddDisposable(_levelTimeReactive);
-            AddDisposable(_levelStateReactive);
-            AddDisposable(_levelUiTriggersReactive);
         }
     }
 }

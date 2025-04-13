@@ -1,5 +1,6 @@
 ﻿using System;
 using _App.Scripts.Root.Game.LevelsCreator.Level;
+using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
 using UnityEngine;
@@ -15,13 +16,16 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         }
 
         private readonly ReactiveEvent<int> _loadLevelByIndex = new();
+        private readonly LevelStateReactive _levelStateReactive = new();
         private IDisposable _currentLevel;
 
         protected override void Initialize()
         {
             AddDisposable(_loadLevelByIndex);
             AddDisposable(_loadLevelByIndex.SubscribeWithSkip(LoadLevelByIndex));
+            AddDisposable(_levelStateReactive);
             
+            Container.Register(_levelStateReactive);
             CreateModel();
         }
 
@@ -29,7 +33,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         {
             AddDisposable(new LevelCreatorModel(new LevelCreatorModel.Ctx
             {
-                LoadLevelByIndex = _loadLevelByIndex
+                LoadLevelByIndex = _loadLevelByIndex,
+                LevelStateReactive = _levelStateReactive,
+                LevelsAmount = Context.LevelsConfigs.Length
             }));
         }
 
@@ -37,7 +43,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         {
             _currentLevel?.Dispose();
             var levelConfig = Context.LevelsConfigs[index];
-            CreateEntity<LevelEntity, LevelEntity.Ctx>(new LevelEntity.Ctx
+            _currentLevel = CreateEntity<LevelEntity, LevelEntity.Ctx>(new LevelEntity.Ctx
             {
                 LevelConfig = levelConfig,
                 Canvas = Context.Canvas

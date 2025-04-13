@@ -9,7 +9,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             public LevelTimeReactive LevelTimeReactive;
             public LevelStateReactive LevelStateReactive;
-            public LevelUiTriggersReactive LevelUiTriggersReactive;
+            public ScoresReactive ScoresReactive;
         }
 
         private readonly Ctx _ctx;
@@ -17,8 +17,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         public LevelModel(Ctx ctx)
         {
             _ctx = ctx;
-            AddDisposable(_ctx.LevelTimeReactive.OnTimeIsOver);
-            AddDisposable(_ctx.LevelUiTriggersReactive.PlayTrigger.Subscribe(OnPlayTrigger));
+            AddDisposable(_ctx.LevelTimeReactive.OnTimeIsOver.Subscribe(OnTimeIsOver));
+            AddDisposable(_ctx.ScoresReactive.OnScoreGoalCompleted.Subscribe(OnScoreGoalCompleted));
+            AddDisposable(_ctx.LevelStateReactive.PlayTrigger.Subscribe(OnPlayTrigger));
 
             _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Start;
         }
@@ -28,9 +29,14 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Play;
         }
 
+        private void OnScoreGoalCompleted()
+        {
+            _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Win;
+        }
+
         private void OnTimeIsOver()
         {
-            
+            _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Fail;
         }
     }
 }

@@ -35,8 +35,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
 
         private void OnPlayStart()
         {
-            CreateNewBall(); 
-            
             AddDisposable(Observable.Timer(TimeSpan.FromSeconds(_ctx.BallsSpawnContent.SpawnInterval))
                 .Repeat()
                 .Where(_ => _ctx.LevelStateReactive.CurrentState.Value == LevelEntity.LevelState.Play)

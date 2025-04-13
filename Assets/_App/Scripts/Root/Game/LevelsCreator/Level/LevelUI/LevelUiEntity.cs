@@ -11,7 +11,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public struct Ctx
         {
             public ScoresReactive ScoresReactive;
-            public LevelUiTriggersReactive LevelUiTriggersReactive;
             public LevelTimeReactive LevelTimeReactive;
             public LevelStateReactive LevelStateReactive;
 
@@ -33,7 +32,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
                 ScoresReactive = Context.ScoresReactive,
                 LevelTimeReactive = Context.LevelTimeReactive,
                 ScoreGoal = Context.ScoreGoal,
-                LevelUiTriggersReactive = Context.LevelUiTriggersReactive,
                 LevelStateReactive = Context.LevelStateReactive
             });
             AddDisposable(new GameObjectDisposer(view.gameObject));

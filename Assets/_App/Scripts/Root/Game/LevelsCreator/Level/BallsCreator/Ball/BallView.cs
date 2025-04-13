@@ -8,6 +8,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
 {
     public class BallView : MonoBehaviour
     {
+        [SerializeField] private Transform _model;
+        
         public struct Ctx
         {
             public BallViewReactive BallViewReactive;
@@ -23,7 +25,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
 
         private void Hide()
         {
-            transform.DOScale(0, 0.1f).
+            _model.DOScale(0, 0.1f).
                 OnComplete(()=> gameObject.SetActive(false)).
                 SetLink(gameObject);
         }
