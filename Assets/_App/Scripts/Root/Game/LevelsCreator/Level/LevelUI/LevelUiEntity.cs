@@ -17,6 +17,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             public UiContent UiContent;
             public Transform Canvas;
             public int ScoreGoal;
+            public int LevelIndex;
         }
 
         protected override void Initialize()
@@ -32,7 +33,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
                 ScoresReactive = Context.ScoresReactive,
                 LevelTimeReactive = Context.LevelTimeReactive,
                 ScoreGoal = Context.ScoreGoal,
-                LevelStateReactive = Context.LevelStateReactive
+                LevelStateReactive = Context.LevelStateReactive,
+                LevelIndex = Context.LevelIndex
             });
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }

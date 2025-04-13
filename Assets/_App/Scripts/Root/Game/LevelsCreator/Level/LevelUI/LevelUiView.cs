@@ -11,6 +11,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
     {
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _timerText;
+        [SerializeField] private TMP_Text _levelIndexText;
         
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _nextLevelButton;
@@ -27,6 +28,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             public LevelTimeReactive LevelTimeReactive;
             public LevelStateReactive LevelStateReactive;
             public int ScoreGoal;
+            public int LevelIndex;
         }
 
         private Ctx _ctx;
@@ -41,6 +43,13 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             _playButton.OnClickAsObservable().Subscribe(_=> OnPlayClick()).AddTo(this);
             _nextLevelButton.OnClickAsObservable().Subscribe(_=> OnNextLevelClick()).AddTo(this);
             _restartButton.OnClickAsObservable().Subscribe(_=> OnRestartClick()).AddTo(this);
+            
+            SetLevelIndexName();
+        }
+
+        private void SetLevelIndexName()
+        {
+            _levelIndexText.text = $"Level: {_ctx.LevelIndex + 1}";
         }
 
         private void SetPlayStateView(LevelEntity.LevelState levelState)

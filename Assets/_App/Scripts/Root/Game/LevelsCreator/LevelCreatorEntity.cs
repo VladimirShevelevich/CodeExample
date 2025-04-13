@@ -46,7 +46,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator
             _currentLevel = CreateEntity<LevelEntity, LevelEntity.Ctx>(new LevelEntity.Ctx
             {
                 LevelConfig = levelConfig,
-                Canvas = Context.Canvas
+                Canvas = Context.Canvas,
+                LevelIndex = index
             });
         }
     }

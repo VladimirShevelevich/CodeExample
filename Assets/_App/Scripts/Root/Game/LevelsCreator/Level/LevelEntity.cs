@@ -23,6 +23,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             public LevelConfig LevelConfig;
             public Transform Canvas;
+            public int LevelIndex;
         }
 
         private readonly BallsCaughtReactive _ballsCaughtReactive = new();
@@ -79,7 +80,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
                 UiContent = Container.Resolve<ContentProvider>().UiContent,
                 Canvas = Context.Canvas,
                 ScoreGoal = Context.LevelConfig.ScoreGoal,
-                LevelStateReactive = Container.Resolve<LevelStateReactive>()
+                LevelStateReactive = Container.Resolve<LevelStateReactive>(),
+                LevelIndex = Context.LevelIndex
             });
         }
 
