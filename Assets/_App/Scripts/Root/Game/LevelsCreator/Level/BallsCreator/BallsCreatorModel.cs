@@ -1,6 +1,7 @@
 ﻿using System;
 using _App.Scripts.Content;
 using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Data;
+using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
 using UniRx;
@@ -14,6 +15,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
         public struct Ctx
         {
             public ReactiveEvent<CreateBallData> CreateBall;
+            public LevelStateReactive LevelStateReactive;
             
             public BallsSpawnContent BallsSpawnContent;
         }
@@ -23,11 +25,25 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
         public BallsCreatorModel(Ctx ctx)
         {
             _ctx = ctx;
-            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(_ctx.BallsSpawnContent.SpawnInterval)).Repeat().Subscribe(_ =>
-            {
-                CreateNewBall();
-            }));
-            CreateNewBall();
+            AddDisposable(_ctx.LevelStateReactive.CurrentState.Where(state => state == LevelEntity.LevelState.Play)
+                .Take(1)
+                .Subscribe(_ =>
+                {
+                    OnPlayStart();
+                }));
+        }
+
+        private void OnPlayStart()
+        {
+            CreateNewBall(); 
+            
+            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(_ctx.BallsSpawnContent.SpawnInterval))
+                .Repeat()
+                .Where(_ => _ctx.LevelStateReactive.CurrentState.Value == LevelEntity.LevelState.Play)
+                .Subscribe(_ =>
+                {
+                    CreateNewBall();
+                }));
         }
 
         private void CreateNewBall()

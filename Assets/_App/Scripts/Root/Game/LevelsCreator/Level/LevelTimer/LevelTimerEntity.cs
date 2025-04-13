@@ -10,27 +10,42 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer
     {
         public struct Ctx
         {
-            public LevelTimerReactive LevelTimerReactive;
+            public LevelStateReactive LevelStateReactive;
+            public LevelTimeReactive LevelTimeReactive;
             public LevelConfig LevelConfig;
         }
 
         protected override void Initialize()
         {
-            ExecuteTimer();
+            Context.LevelTimeReactive.TimeLeft.Value = TimeSpan.FromSeconds(Context.LevelConfig.TimeInSeconds);
+            AddDisposable(Context.LevelStateReactive.CurrentState.Where(state => state == LevelEntity.LevelState.Play)
+                .Take(1)
+                .Subscribe(_ =>
+                {
+                    ExecuteTimer();
+                }));
         }
 
         private void ExecuteTimer()
         {
-            Context.LevelTimerReactive.TimeLeft.Value = TimeSpan.FromSeconds(Context.LevelConfig.TimeInSeconds);
-            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(1)).Repeat().Subscribe(_ =>
-            {
-                UpdateTime(1);
-            }));
+            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(1))
+                .Repeat()
+                .Where(_ => Context.LevelStateReactive.CurrentState.Value == LevelEntity.LevelState.Play)
+                .Subscribe(_ =>
+                {
+                    UpdateTime(1);
+                }));
         }
 
         private void UpdateTime(int secondsDecrease)
         {
-            Context.LevelTimerReactive.TimeLeft.Value -= TimeSpan.FromSeconds(secondsDecrease);
+            if (Context.LevelTimeReactive.TimeLeft.Value < TimeSpan.FromSeconds(1))
+            {
+                Context.LevelTimeReactive.OnTimeIsOver.Notify();
+                return;
+            }
+                
+            Context.LevelTimeReactive.TimeLeft.Value -= TimeSpan.FromSeconds(secondsDecrease);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
         public struct Ctx
         {
             public BallsSpawnContent BallsSpawnContent;
+            public LevelStateReactive LevelStateReactive;
         }
 
         private readonly ReactiveEvent<CreateBallData> _createBall = new();
@@ -32,6 +33,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
             {
                 CreateBall = _createBall,
                 BallsSpawnContent = Context.BallsSpawnContent,
+                LevelStateReactive = Context.LevelStateReactive
             }));
         }
 

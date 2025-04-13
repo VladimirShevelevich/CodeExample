@@ -11,7 +11,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public struct Ctx
         {
             public ScoresReactive ScoresReactive;
-            public LevelTimerReactive LevelTimerReactive;
+            public LevelTimeReactive LevelTimeReactive;
             
             public UiContent UiContent;
             public Transform Canvas;
@@ -28,7 +28,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             view.SetCtx(new LevelUiView.Ctx
             {
                 ScoresReactive = Context.ScoresReactive,
-                LevelTimerReactive = Context.LevelTimerReactive
+                LevelTimeReactive = Context.LevelTimeReactive
             });
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }

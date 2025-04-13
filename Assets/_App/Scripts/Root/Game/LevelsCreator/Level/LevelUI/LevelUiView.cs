@@ -14,7 +14,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public struct Ctx
         {
             public ScoresReactive ScoresReactive;
-            public LevelTimerReactive LevelTimerReactive;
+            public LevelTimeReactive LevelTimeReactive;
         }
 
         private Ctx _ctx;
@@ -23,7 +23,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         {
             _ctx = ctx;
             _ctx.ScoresReactive.CurrentScore.Subscribe(SetScoreText).AddTo(this);
-            _ctx.LevelTimerReactive.TimeLeft.Subscribe(SetTimerText).AddTo(this);
+            _ctx.LevelTimeReactive.TimeLeft.Subscribe(SetTimerText).AddTo(this);
         }
 
         private void SetScoreText(int score)

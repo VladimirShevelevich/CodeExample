@@ -11,6 +11,14 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
 {
     public class LevelEntity : BaseEntity<LevelEntity.Ctx>
     {
+        public enum LevelState
+        {
+            Start,
+            Play,
+            Fail,
+            Win
+        }
+        
         public struct Ctx
         {
             public LevelConfig LevelConfig;
@@ -19,17 +27,28 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
 
         private readonly BallsCaughtReactive _ballsCaughtReactive = new();
         private readonly ScoresReactive _scoresReactive = new();
-        private readonly LevelTimerReactive _levelTimerReactive = new();
+        private readonly LevelTimeReactive _levelTimeReactive = new();
+        private readonly LevelStateReactive _levelStateReactive = new();
         
         protected override void Initialize()
         {
             MarkDisposables();
             RegisterDependencies();
 
+            CreateModel();
             CreateBallsCreator();
             CreateScoresController();
             CreateLevelUI();
             CreateTimer();
+        }
+
+        private void CreateModel()
+        {
+            AddDisposable(new LevelModel(new LevelModel.Ctx
+            {
+                LevelTimeReactive = _levelTimeReactive,
+                LevelStateReactive = _levelStateReactive
+            }));
         }
 
         private void CreateScoresController()
@@ -45,7 +64,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             CreateEntity<BallsCreatorEntity, BallsCreatorEntity.Ctx>(new BallsCreatorEntity.Ctx
             {
-                BallsSpawnContent = Container.Resolve<ContentProvider>().BallsSpawnContent
+                BallsSpawnContent = Container.Resolve<ContentProvider>().BallsSpawnContent,
+                LevelStateReactive = Container.Resolve<LevelStateReactive>()
             });
         }
 
@@ -54,7 +74,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             CreateEntity<LevelUiEntity, LevelUiEntity.Ctx>(new LevelUiEntity.Ctx
             {
                 ScoresReactive = _scoresReactive,
-                LevelTimerReactive = _levelTimerReactive,
+                LevelTimeReactive = _levelTimeReactive,
                 UiContent = Container.Resolve<ContentProvider>().UiContent,
                 Canvas = Context.Canvas
             });
@@ -64,8 +84,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             CreateEntity<LevelTimerEntity, LevelTimerEntity.Ctx>(new LevelTimerEntity.Ctx
             {
-                LevelTimerReactive = _levelTimerReactive,
-                LevelConfig = Context.LevelConfig
+                LevelTimeReactive = _levelTimeReactive,
+                LevelConfig = Context.LevelConfig,
+                LevelStateReactive = _levelStateReactive
             });
         }
 
@@ -73,13 +94,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             Container.Register(_ballsCaughtReactive);
             Container.Register(_scoresReactive);
+            Container.Register(_levelStateReactive);
         }
 
         private void MarkDisposables()
         {
             AddDisposable(_ballsCaughtReactive);
             AddDisposable(_scoresReactive);
-            AddDisposable(_levelTimerReactive);
+            AddDisposable(_levelTimeReactive);
+            AddDisposable(_levelStateReactive);
         }
     }
 }
