@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ContentProvider
   m_EditorClassIdentifier: 
   BallsSpawnContent: {fileID: 11400000, guid: 793b4dfe4a3735b4ba8fbb8173332895, type: 2}
+  UiContent: {fileID: 11400000, guid: 5dc905bc3729a7d479867e02d46d67c5, type: 2}
   <Levels>k__BackingField:
   - {fileID: 11400000, guid: ed907345f0a9a2b4aa595948e836918f, type: 2}
   - {fileID: 11400000, guid: 479639833534a5a42a70d41b6c49b96e, type: 2}

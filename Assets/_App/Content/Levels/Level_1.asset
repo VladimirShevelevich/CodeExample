@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb4722f0935468190fdaf57207626b8, type: 3}
   m_Name: Level_1
   m_EditorClassIdentifier: 
+  <TimeInSeconds>k__BackingField: 20
+  <ScoreGoal>k__BackingField: 15

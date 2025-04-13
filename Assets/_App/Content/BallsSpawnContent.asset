@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15509bfd8d134fad8b63a1ae371871ff, type: 3}
   m_Name: BallsSpawnContent
   m_EditorClassIdentifier: 
-  <SpawnInterval>k__BackingField: 1.2
+  <SpawnInterval>k__BackingField: 0.7
   <SpawnArea>k__BackingField:
     Wight: 10
     Height: 10
