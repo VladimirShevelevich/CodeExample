@@ -26,7 +26,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
         private void AddScore(int score)
         {
             Context.ScoresReactive.CurrentScore.Value += score;
-            Debug.Log(Context.ScoresReactive.CurrentScore.Value);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         private readonly ScoresReactive _scoresReactive = new();
         private readonly LevelTimeReactive _levelTimeReactive = new();
         private readonly LevelStateReactive _levelStateReactive = new();
+        private readonly LevelUiTriggersReactive _levelUiTriggersReactive = new();
         
         protected override void Initialize()
         {
@@ -47,7 +48,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             AddDisposable(new LevelModel(new LevelModel.Ctx
             {
                 LevelTimeReactive = _levelTimeReactive,
-                LevelStateReactive = _levelStateReactive
+                LevelStateReactive = _levelStateReactive,
+                LevelUiTriggersReactive = _levelUiTriggersReactive
             }));
         }
 
@@ -76,7 +78,10 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
                 ScoresReactive = _scoresReactive,
                 LevelTimeReactive = _levelTimeReactive,
                 UiContent = Container.Resolve<ContentProvider>().UiContent,
-                Canvas = Context.Canvas
+                Canvas = Context.Canvas,
+                ScoreGoal = Context.LevelConfig.ScoreGoal,
+                LevelUiTriggersReactive = _levelUiTriggersReactive,
+                LevelStateReactive = _levelStateReactive
             });
         }
 
@@ -103,6 +108,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             AddDisposable(_scoresReactive);
             AddDisposable(_levelTimeReactive);
             AddDisposable(_levelStateReactive);
+            AddDisposable(_levelUiTriggersReactive);
         }
     }
 }

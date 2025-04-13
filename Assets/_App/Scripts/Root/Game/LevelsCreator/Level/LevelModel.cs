@@ -9,6 +9,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             public LevelTimeReactive LevelTimeReactive;
             public LevelStateReactive LevelStateReactive;
+            public LevelUiTriggersReactive LevelUiTriggersReactive;
         }
 
         private readonly Ctx _ctx;
@@ -17,8 +18,14 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         {
             _ctx = ctx;
             AddDisposable(_ctx.LevelTimeReactive.OnTimeIsOver);
+            AddDisposable(_ctx.LevelUiTriggersReactive.PlayTrigger.Subscribe(OnPlayTrigger));
 
             _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Start;
+        }
+
+        private void OnPlayTrigger()
+        {
+            _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Play;
         }
 
         private void OnTimeIsOver()

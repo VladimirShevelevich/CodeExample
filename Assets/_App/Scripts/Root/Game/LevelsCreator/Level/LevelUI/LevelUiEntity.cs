@@ -11,10 +11,13 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public struct Ctx
         {
             public ScoresReactive ScoresReactive;
+            public LevelUiTriggersReactive LevelUiTriggersReactive;
             public LevelTimeReactive LevelTimeReactive;
-            
+            public LevelStateReactive LevelStateReactive;
+
             public UiContent UiContent;
             public Transform Canvas;
+            public int ScoreGoal;
         }
 
         protected override void Initialize()
@@ -28,7 +31,10 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             view.SetCtx(new LevelUiView.Ctx
             {
                 ScoresReactive = Context.ScoresReactive,
-                LevelTimeReactive = Context.LevelTimeReactive
+                LevelTimeReactive = Context.LevelTimeReactive,
+                ScoreGoal = Context.ScoreGoal,
+                LevelUiTriggersReactive = Context.LevelUiTriggersReactive,
+                LevelStateReactive = Context.LevelStateReactive
             });
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }
