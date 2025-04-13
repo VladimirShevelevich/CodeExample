@@ -12,8 +12,12 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             public CreateBallData CreateBallData;
         }
 
+        private readonly BallViewReactive _ballViewReactive = new();
+        
         protected override void Initialize()
         {
+            AddDisposable(_ballViewReactive);
+            
             CreateView();
         }
 
@@ -22,7 +26,10 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             var prefab = Context.CreateBallData.BallInfo.Prefab;
             var position = new Vector3(Context.CreateBallData.Position.x, 0, Context.CreateBallData.Position.y);
             var view = Object.Instantiate(prefab, position, Quaternion.identity);
-            view.SetCtx(new BallView.Ctx());
+            view.SetCtx(new BallView.Ctx
+            {
+                BallViewReactive = _ballViewReactive
+            });
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }
     }

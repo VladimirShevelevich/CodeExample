@@ -6,6 +6,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
     {
         public struct Ctx
         {
+            public BallViewReactive BallViewReactive;
         }
 
         private Ctx _ctx;

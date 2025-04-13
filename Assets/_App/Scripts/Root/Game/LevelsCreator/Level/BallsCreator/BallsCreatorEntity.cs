@@ -1,8 +1,10 @@
-﻿using _App.Scripts.Content;
+﻿using System;
+using _App.Scripts.Content;
 using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball;
 using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Data;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
+using UniRx;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
 {
@@ -34,10 +36,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
 
         private void CreateBall(CreateBallData createBallData)
         {
-            CreateEntity<BallEntity, BallEntity.Ctx>(new BallEntity.Ctx
+            var entity = CreateEntity<BallEntity, BallEntity.Ctx>(new BallEntity.Ctx
             {
                 CreateBallData = createBallData
             });
+            var lifeTime = createBallData.BallInfo.LifeTime;
+            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(lifeTime+3)).Subscribe(_ =>
+            {
+                entity.Dispose();
+            }));
         }
     }
 }

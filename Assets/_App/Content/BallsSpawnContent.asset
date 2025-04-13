@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15509bfd8d134fad8b63a1ae371871ff, type: 3}
   m_Name: BallsSpawnContent
   m_EditorClassIdentifier: 
-  <SpawnInterval>k__BackingField: 0
-  BallDatas:
+  <SpawnInterval>k__BackingField: 1
+  <SpawnArea>k__BackingField:
+    Wight: 10
+    Height: 10
+  BallInfos:
   - Key: 0
     Value:
-      Prefab: {fileID: 6858779179225269500, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
+      Prefab: {fileID: 8284437086788119551, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
+      LifeTime: 3
   - Key: 1
     Value:
-      Prefab: {fileID: 6858779179225269500, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
+      Prefab: {fileID: 8284437086788119551, guid: 1e1ab3c290b58494b9253f6f04bc4b44, type: 3}
+      LifeTime: 1

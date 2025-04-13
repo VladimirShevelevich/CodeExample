@@ -13,6 +13,7 @@ namespace _App.Scripts.Content
     {
         [field: SerializeField] public float SpawnInterval { get; private set; }
         [field: SerializeField] public BallsSpawnArea SpawnArea { get; private set; }
+        [field: SerializeField] public float SpecialBallChance { get; private set; }
         [field: SerializeField] private List<CustomKeyValuePair<BallType, BallInfo>> BallInfos;
 
         public BallInfo GetBallInfoByType(BallType ballType)
@@ -30,6 +31,7 @@ namespace _App.Scripts.Content
     public struct BallInfo
     {
         public BallView Prefab;
+        public float LifeTime;
     }
 
     [Serializable]

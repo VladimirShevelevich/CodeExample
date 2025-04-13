@@ -33,7 +33,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
         private void CreateNewBall()
         {
             var randomValue = Random.value;
-            var newBallType = randomValue > 0.1 ? BallType.Regular : BallType.Special;
+            var newBallType = randomValue > _ctx.BallsSpawnContent.SpecialBallChance ? BallType.Regular : BallType.Special;
             var ballInfo = _ctx.BallsSpawnContent.GetBallInfoByType(newBallType);
             var spawnArea = _ctx.BallsSpawnContent.SpawnArea;
             var position = new Vector2(Random.Range(-spawnArea.Wight/2, spawnArea.Wight/2), Random.Range(-spawnArea.Height/2, spawnArea.Height/2));
