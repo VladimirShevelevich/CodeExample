@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TimeInSeconds>k__BackingField: 20
   <ScoreGoal>k__BackingField: 15
+  <EnvironmentPrefab>k__BackingField: {fileID: 4433265342477584233, guid: 6da6ea05db08d574080564954e992e49, type: 3}

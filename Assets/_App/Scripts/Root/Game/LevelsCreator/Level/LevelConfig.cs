@@ -7,5 +7,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
     {
         [field: SerializeField] public int TimeInSeconds { get; private set; }
         [field: SerializeField] public int ScoreGoal { get; private set; }
+        [field: SerializeField] public GameObject EnvironmentPrefab { get; private set; }
     }
 }

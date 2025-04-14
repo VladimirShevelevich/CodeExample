@@ -5,6 +5,7 @@ using _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI;
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController;
 using _App.Scripts.Tools.Core;
+using _App.Scripts.Tools.Disposables;
 using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level
@@ -40,6 +41,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             CreateScoresController();
             CreateLevelUI();
             CreateTimer();
+            CreateEnvironment();
         }
 
         private void CreateModel()
@@ -93,6 +95,12 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
                 LevelConfig = Context.LevelConfig,
                 LevelStateReactive = Container.Resolve<LevelStateReactive>()
             });
+        }
+
+        private void CreateEnvironment()
+        {
+            var view = Object.Instantiate(Context.LevelConfig.EnvironmentPrefab);
+            AddDisposable(new GameObjectDisposer(view.gameObject));
         }
 
         private void RegisterDependencies()
