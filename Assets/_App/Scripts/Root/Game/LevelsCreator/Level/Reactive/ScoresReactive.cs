@@ -4,7 +4,13 @@ using UniRx;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
 {
-    public class ScoresReactive : BaseDisposable
+    public interface IReadOnlyScoresReactive
+    {
+        public IReadOnlyReactiveProperty<int> ICurrentScore { get; }
+        public IReadOnlyReactiveTrigger IOnScoreGoalCompleted { get; }
+    }
+    
+    public class ScoresReactive : BaseDisposable, IReadOnlyScoresReactive
     {
         public readonly ReactiveProperty<int> CurrentScore = new();
         public readonly ReactiveTrigger OnScoreGoalCompleted = new();
@@ -14,5 +20,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
             AddDisposable(CurrentScore);
             AddDisposable(OnScoreGoalCompleted);
         }
+
+        public IReadOnlyReactiveProperty<int> ICurrentScore => CurrentScore;
+        public IReadOnlyReactiveTrigger IOnScoreGoalCompleted => OnScoreGoalCompleted;
     }
 }

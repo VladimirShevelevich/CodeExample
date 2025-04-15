@@ -15,7 +15,7 @@ namespace _App.Scripts.Root
         
         protected override void Initialize()
         {
-            Container.Register(Context.ContentProvider);
+            Container.Register<ContentProvider>(Context.ContentProvider);
             
             CreateGameEntity();
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using _App.Scripts.Root.Game.LevelsCreator.Level;
-using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
+using _App.Scripts.Root.Game.LevelsCreator.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
 using UnityEngine;
@@ -16,16 +16,16 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         }
 
         private readonly ReactiveEvent<int> _loadLevelByIndex = new();
-        private readonly LevelStateReactive _levelStateReactive = new();
+        private readonly LevelLoadReactive _levelLoadReactive = new();
         private IDisposable _currentLevel;
 
         protected override void Initialize()
         {
             AddDisposable(_loadLevelByIndex);
             AddDisposable(_loadLevelByIndex.SubscribeWithSkip(LoadLevelByIndex));
-            AddDisposable(_levelStateReactive);
+            AddDisposable(_levelLoadReactive);
+            Container.Register<LevelLoadReactive>(_levelLoadReactive);
             
-            Container.Register(_levelStateReactive);
             CreateModel();
         }
 
@@ -34,7 +34,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator
             AddDisposable(new LevelCreatorModel(new LevelCreatorModel.Ctx
             {
                 LoadLevelByIndex = _loadLevelByIndex,
-                LevelStateReactive = _levelStateReactive,
+                LevelLoadReactive = _levelLoadReactive,
                 LevelsAmount = Context.LevelsConfigs.Length
             }));
         }

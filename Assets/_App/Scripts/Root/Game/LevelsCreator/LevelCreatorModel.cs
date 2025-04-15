@@ -1,4 +1,4 @@
-﻿using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
+﻿using _App.Scripts.Root.Game.LevelsCreator.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
 
@@ -9,7 +9,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         public struct Ctx
         {
             public ReactiveEvent<int> LoadLevelByIndex;
-            public LevelStateReactive LevelStateReactive;
+            public LevelLoadReactive LevelLoadReactive;
             public int LevelsAmount;
         }
 
@@ -21,8 +21,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator
             _ctx = ctx;
             _ctx.LoadLevelByIndex.Notify(0);
             
-            AddDisposable(_ctx.LevelStateReactive.RestartTrigger.Subscribe(RestartLevel));
-            AddDisposable(_ctx.LevelStateReactive.NextLevelTrigger.Subscribe(LoadNextLevel));
+            AddDisposable(_ctx.LevelLoadReactive.RestartTrigger.Subscribe(RestartLevel));
+            AddDisposable(_ctx.LevelLoadReactive.NextLevelTrigger.Subscribe(LoadNextLevel));
         }
 
         private void RestartLevel()

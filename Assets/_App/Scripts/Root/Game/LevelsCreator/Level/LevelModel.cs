@@ -7,9 +7,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
     {
         public struct Ctx
         {
-            public LevelTimeReactive LevelTimeReactive;
             public LevelStateReactive LevelStateReactive;
-            public ScoresReactive ScoresReactive;
+            public IReadOnlyScoresReactive ScoresReactive;
+            public IReadOnlyLevelTimeReactive LevelTimeReactive;
         }
 
         private readonly Ctx _ctx;
@@ -17,8 +17,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         public LevelModel(Ctx ctx)
         {
             _ctx = ctx;
-            AddDisposable(_ctx.LevelTimeReactive.OnTimeIsOver.Subscribe(OnTimeIsOver));
-            AddDisposable(_ctx.ScoresReactive.OnScoreGoalCompleted.Subscribe(OnScoreGoalCompleted));
+            AddDisposable(_ctx.LevelTimeReactive.IOnTimeIsOver.Subscribe(OnTimeIsOver));
+            AddDisposable(_ctx.ScoresReactive.IOnScoreGoalCompleted.Subscribe(OnScoreGoalCompleted));
             AddDisposable(_ctx.LevelStateReactive.PlayTrigger.Subscribe(OnPlayTrigger));
 
             _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Start;

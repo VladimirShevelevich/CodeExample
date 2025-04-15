@@ -16,7 +16,7 @@ namespace _App.Scripts.Tools.Core
             _parent = parent;
         }
 
-        public void Register<T>(T instance)
+        public void Register<T>(object instance)
         {
             _dependencies[typeof(T)] = instance;
         }

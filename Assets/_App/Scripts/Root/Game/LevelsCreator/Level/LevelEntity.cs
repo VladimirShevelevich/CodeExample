@@ -4,6 +4,7 @@ using _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer;
 using _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI;
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController;
+using _App.Scripts.Root.Game.LevelsCreator.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Disposables;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         private readonly BallsCaughtReactive _ballsCaughtReactive = new();
         private readonly ScoresReactive _scoresReactive = new();
         private readonly LevelTimeReactive _levelTimeReactive = new();
+        private readonly LevelStateReactive _levelStateReactive = new();
         
         protected override void Initialize()
         {
@@ -79,10 +81,11 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             {
                 ScoresReactive = _scoresReactive,
                 LevelTimeReactive = _levelTimeReactive,
+                LevelLoadReactive = Container.Resolve<LevelLoadReactive>(),
                 UiContent = Container.Resolve<ContentProvider>().UiContent,
                 Canvas = Context.Canvas,
                 ScoreGoal = Context.LevelConfig.ScoreGoal,
-                LevelStateReactive = Container.Resolve<LevelStateReactive>(),
+                LevelStateReactive = Container.Resolve<IReadOnlyLevelStateReactive>(),
                 LevelIndex = Context.LevelIndex
             });
         }
@@ -105,8 +108,11 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
 
         private void RegisterDependencies()
         {
-            Container.Register(_ballsCaughtReactive);
-            Container.Register(_scoresReactive);
+            Container.Register<BallsCaughtReactive>(_ballsCaughtReactive);
+            Container.Register<ScoresReactive>(_scoresReactive);
+            Container.Register<IReadOnlyScoresReactive>(_scoresReactive);
+            Container.Register<LevelStateReactive>(_levelStateReactive);
+            Container.Register<IReadOnlyLevelStateReactive>(_levelStateReactive);
         }
 
         private void MarkDisposables()
@@ -114,6 +120,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             AddDisposable(_ballsCaughtReactive);
             AddDisposable(_scoresReactive);
             AddDisposable(_levelTimeReactive);
+            AddDisposable(_levelStateReactive);
         }
     }
 }
