@@ -7,8 +7,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
 {
     public interface IReadOnlyLevelTimeReactive
     {
-        public IReadOnlyReactiveProperty<TimeSpan> ITimeLeft { get; }
-        public ReactiveTrigger IOnTimeIsOver { get; }
+        public IReadOnlyReactiveProperty<TimeSpan> TimeLeftReadOnly { get; }
+        public ReactiveTrigger OnTimeIsOverReadOnly { get; }
     }
     
     public class LevelTimeReactive : BaseDisposable, IReadOnlyLevelTimeReactive
@@ -22,7 +22,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
             AddDisposable(OnTimeIsOver);
         }
 
-        public IReadOnlyReactiveProperty<TimeSpan> ITimeLeft => TimeLeft;
-        public ReactiveTrigger IOnTimeIsOver => OnTimeIsOver;
+        public IReadOnlyReactiveProperty<TimeSpan> TimeLeftReadOnly => TimeLeft;
+        public ReactiveTrigger OnTimeIsOverReadOnly => OnTimeIsOver;
     }
 }

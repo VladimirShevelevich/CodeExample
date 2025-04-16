@@ -6,8 +6,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
 {
     public interface IReadOnlyScoresReactive
     {
-        public IReadOnlyReactiveProperty<int> ICurrentScore { get; }
-        public IReadOnlyReactiveTrigger IOnScoreGoalCompleted { get; }
+        public IReadOnlyReactiveProperty<int> CurrentScoreReadOnly { get; }
+        public IReadOnlyReactiveTrigger OnScoreGoalCompletedReadOnly { get; }
     }
     
     public class ScoresReactive : BaseDisposable, IReadOnlyScoresReactive
@@ -21,7 +21,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
             AddDisposable(OnScoreGoalCompleted);
         }
 
-        public IReadOnlyReactiveProperty<int> ICurrentScore => CurrentScore;
-        public IReadOnlyReactiveTrigger IOnScoreGoalCompleted => OnScoreGoalCompleted;
+        public IReadOnlyReactiveProperty<int> CurrentScoreReadOnly => CurrentScore;
+        public IReadOnlyReactiveTrigger OnScoreGoalCompletedReadOnly => OnScoreGoalCompleted;
     }
 }

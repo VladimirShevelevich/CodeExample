@@ -6,7 +6,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
 {
     public interface IReadOnlyLevelStateReactive
     {
-        public IReadOnlyReactiveProperty<LevelEntity.LevelState> ICurrentState { get; }
+        public IReadOnlyReactiveProperty<LevelEntity.LevelState> CurrentStateReadOnly { get; }
         public ReactiveTrigger IPlayTrigger { get; }
     }
     
@@ -21,7 +21,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
             AddDisposable(PlayTrigger);
         }
 
-        public IReadOnlyReactiveProperty<LevelEntity.LevelState> ICurrentState => CurrentState;
+        public IReadOnlyReactiveProperty<LevelEntity.LevelState> CurrentStateReadOnly => CurrentState;
         public ReactiveTrigger IPlayTrigger => PlayTrigger;
     }
 }

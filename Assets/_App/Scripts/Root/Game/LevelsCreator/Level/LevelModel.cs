@@ -17,8 +17,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         public LevelModel(Ctx ctx)
         {
             _ctx = ctx;
-            AddDisposable(_ctx.LevelTimeReactive.IOnTimeIsOver.Subscribe(OnTimeIsOver));
-            AddDisposable(_ctx.ScoresReactive.IOnScoreGoalCompleted.Subscribe(OnScoreGoalCompleted));
+            AddDisposable(_ctx.LevelTimeReactive.OnTimeIsOverReadOnly.Subscribe(OnTimeIsOver));
+            AddDisposable(_ctx.ScoresReactive.OnScoreGoalCompletedReadOnly.Subscribe(OnScoreGoalCompleted));
             AddDisposable(_ctx.LevelStateReactive.PlayTrigger.Subscribe(OnPlayTrigger));
 
             _ctx.LevelStateReactive.CurrentState.Value = LevelEntity.LevelState.Start;
