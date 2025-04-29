@@ -5,13 +5,7 @@ using UniRx;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
 {
-    public interface IReadOnlyLevelTimeReactive
-    {
-        public IReadOnlyReactiveProperty<TimeSpan> TimeLeftReadOnly { get; }
-        public ReactiveTrigger OnTimeIsOverReadOnly { get; }
-    }
-    
-    public class LevelTimeReactive : BaseDisposable, IReadOnlyLevelTimeReactive
+    public class LevelTimeReactive : BaseDisposable
     {
         public readonly ReactiveProperty<TimeSpan> TimeLeft = new();
         public readonly ReactiveTrigger OnTimeIsOver = new();
@@ -21,8 +15,5 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
             AddDisposable(TimeLeft);
             AddDisposable(OnTimeIsOver);
         }
-
-        public IReadOnlyReactiveProperty<TimeSpan> TimeLeftReadOnly => TimeLeft;
-        public ReactiveTrigger OnTimeIsOverReadOnly => OnTimeIsOver;
     }
 }

@@ -1,12 +1,15 @@
-﻿using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Data;
+﻿using System;
+using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Data;
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Disposables;
+using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
 {
-    public class BallEntity : BaseEntity<BallEntity.Ctx>
+    public class BallEntity : BaseEntity
     {
         public struct Ctx
         {
@@ -17,30 +20,45 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         }
 
         private readonly BallViewReactive _ballViewReactive = new();
+        private readonly Ctx _ctx; 
+        private bool _wasClicked;
         
-        protected override void Initialize()
+        public BallEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
+            _ctx = context;
             AddDisposable(_ballViewReactive);
+            AddDisposable(_ballViewReactive.OnClicked.Subscribe(OnClicked));
+            SetHiding();
             
-            CreateModel();
             CreateView();
         }
 
-        private void CreateModel()
+        private void SetHiding()
         {
-            AddDisposable(new BallModel(new BallModel.Ctx
+            AddDisposable(Observable.Timer(TimeSpan.FromSeconds(_ctx.CreateBallData.BallInfo.LifeTime)).Subscribe(_ =>
             {
-                BallInfo = Context.CreateBallData.BallInfo,
-                BallViewReactive = _ballViewReactive,
-                BallsCaughtReactive = Context.BallsCaughtReactive,
-                LevelStateReactive = Context.LevelStateReactive
+                if (!_wasClicked)
+                    _ballViewReactive.HideTrigger.Notify();
             }));
+        }
+
+        private void OnClicked()
+        {
+            if(_wasClicked)
+                return;
+            
+            if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
+                return;
+            
+            _ctx.BallsCaughtReactive.OnCaught.Notify(_ctx.CreateBallData.BallInfo);
+            _ballViewReactive.HideTrigger.Notify();
+            _wasClicked = true;
         }
 
         private void CreateView()
         {
-            var prefab = Context.CreateBallData.BallInfo.Prefab;
-            var position = new Vector3(Context.CreateBallData.Position.x, 0, Context.CreateBallData.Position.y);
+            var prefab = _ctx.CreateBallData.BallInfo.Prefab;
+            var position = new Vector3(_ctx.CreateBallData.Position.x, 0, _ctx.CreateBallData.Position.y);
             var view = Object.Instantiate(prefab, position, Quaternion.identity);
             view.SetCtx(new BallView.Ctx
             {

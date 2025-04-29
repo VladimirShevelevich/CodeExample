@@ -41,13 +41,16 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         {
             _currentLevel?.Dispose();
             var levelConfig = _ctx.LevelsConfigs[index];
-            AddDisposable(new LevelEntity(new LevelEntity.Ctx
+            
+            var entity = new LevelEntity(new LevelEntity.Ctx
                 {
                     LevelConfig = levelConfig,
                     Canvas = _ctx.Canvas,
                     LevelIndex = index
                 },
-                Container));
+                Container);
+            _currentLevel = entity;
+            AddDisposable(entity);
         }
 
         private void LoadNextLevel()

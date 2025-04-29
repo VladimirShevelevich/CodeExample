@@ -26,9 +26,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public struct Ctx
         {
             public LevelLoadReactive LevelLoadReactive;
-            public IReadOnlyScoresReactive ScoresReactive;
-            public IReadOnlyLevelTimeReactive LevelTimeReactive;
-            public IReadOnlyLevelStateReactive LevelStateReactive;
+            public ScoresReactive ScoresReactive;
+            public LevelTimeReactive LevelTimeReactive;
+            public LevelStateReactive LevelStateReactive;
             public int ScoreGoal;
             public int LevelIndex;
         }
@@ -38,9 +38,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public void SetCtx(Ctx ctx)
         {
             _ctx = ctx;
-            _ctx.LevelStateReactive.CurrentStateReadOnly.Subscribe(SetPlayStateView).AddTo(this);
-            _ctx.ScoresReactive.CurrentScoreReadOnly.Subscribe(SetScoreText).AddTo(this);
-            _ctx.LevelTimeReactive.TimeLeftReadOnly.Subscribe(SetTimerText).AddTo(this);
+            _ctx.LevelStateReactive.CurrentState.Subscribe(SetPlayStateView).AddTo(this);
+            _ctx.ScoresReactive.CurrentScore.Subscribe(SetScoreText).AddTo(this);
+            _ctx.LevelTimeReactive.TimeLeft.Subscribe(SetTimerText).AddTo(this);
             
             _playButton.OnClickAsObservable().Subscribe(_=> OnPlayClick()).AddTo(this);
             _nextLevelButton.OnClickAsObservable().Subscribe(_=> OnNextLevelClick()).AddTo(this);
@@ -64,7 +64,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
 
         private void OnPlayClick()
         {
-            _ctx.LevelStateReactive.IPlayTrigger.Notify();
+            _ctx.LevelStateReactive.PlayTrigger.Notify();
         }
 
         private void OnNextLevelClick()

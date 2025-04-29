@@ -13,8 +13,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         {
             public ScoresReactive ScoresReactive;
             public LevelLoadReactive LevelLoadReactive;
-            public IReadOnlyLevelTimeReactive LevelTimeReactive;
-            public IReadOnlyLevelStateReactive LevelStateReactive;
+            public LevelTimeReactive LevelTimeReactive;
+            public LevelStateReactive LevelStateReactive;
 
             public UiContent UiContent;
             public Transform Canvas;
@@ -22,13 +22,14 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             public int LevelIndex;
         }        
         
-        private Ctx _ctx; 
+        private readonly Ctx _ctx; 
         
         public LevelUiEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
             _ctx = context;
             CreateView();
         }
+        
         private void CreateView()
         {
             var view = Object.Instantiate(_ctx.UiContent.LevelUiPrefab, _ctx.Canvas);

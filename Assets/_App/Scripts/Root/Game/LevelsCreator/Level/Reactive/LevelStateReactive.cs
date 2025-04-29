@@ -4,13 +4,7 @@ using UniRx;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
 {
-    public interface IReadOnlyLevelStateReactive
-    {
-        public IReadOnlyReactiveProperty<LevelEntity.LevelState> CurrentStateReadOnly { get; }
-        public ReactiveTrigger IPlayTrigger { get; }
-    }
-    
-    public class LevelStateReactive : BaseDisposable, IReadOnlyLevelStateReactive
+    public class LevelStateReactive : BaseDisposable
     {
         public readonly ReactiveProperty<LevelEntity.LevelState> CurrentState = new();        
         public readonly ReactiveTrigger PlayTrigger = new();
@@ -20,8 +14,5 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.Reactive
             AddDisposable(CurrentState);
             AddDisposable(PlayTrigger);
         }
-
-        public IReadOnlyReactiveProperty<LevelEntity.LevelState> CurrentStateReadOnly => CurrentState;
-        public ReactiveTrigger IPlayTrigger => PlayTrigger;
     }
 }

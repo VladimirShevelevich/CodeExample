@@ -1,7 +1,6 @@
 ﻿using _App.Scripts.Content;
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
-using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
 {
