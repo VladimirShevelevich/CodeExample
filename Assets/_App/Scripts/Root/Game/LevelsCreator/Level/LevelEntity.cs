@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level
 {
-    public class LevelEntity : BaseEntity<LevelEntity.Ctx>
+    public class LevelEntity : BaseEntity
     {
         public enum LevelState
         {
@@ -28,13 +28,18 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             public int LevelIndex;
         }
 
+        private readonly Ctx _ctx; 
+        
         private readonly BallsCaughtReactive _ballsCaughtReactive = new();
         private readonly ScoresReactive _scoresReactive = new();
         private readonly LevelTimeReactive _levelTimeReactive = new();
         private readonly LevelStateReactive _levelStateReactive = new();
         
-        protected override void Initialize()
+
+        public LevelEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
+            _ctx = context;
+            
             MarkDisposables();
             RegisterDependencies();
 
@@ -57,52 +62,56 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
         }
 
         private void CreateScoresController()
-        {
-            CreateEntity<ScoreControllerEntity, ScoreControllerEntity.Ctx>(new ScoreControllerEntity.Ctx
-            {
-                BallsCaughtReactive = _ballsCaughtReactive,
-                ScoresReactive = _scoresReactive,
-                ScoreGoal = Context.LevelConfig.ScoreGoal
-            });
+        {            
+            AddDisposable(new ScoreControllerEntity(new ScoreControllerEntity.Ctx
+                {
+                    BallsCaughtReactive = _ballsCaughtReactive,
+                    ScoresReactive = _scoresReactive,
+                    ScoreGoal = _ctx.LevelConfig.ScoreGoal
+                },
+                Container));
         }
 
         private void CreateBallsCreator()
-        {
-            CreateEntity<BallsCreatorEntity, BallsCreatorEntity.Ctx>(new BallsCreatorEntity.Ctx
-            {
-                BallsSpawnContent = Container.Resolve<ContentProvider>().BallsSpawnContent,
-                LevelStateReactive = Container.Resolve<LevelStateReactive>()
-            });
+        {            
+            AddDisposable(new BallsCreatorEntity(new BallsCreatorEntity.Ctx
+                {
+                    BallsSpawnContent = Container.Resolve<ContentProvider>().BallsSpawnContent,
+                    LevelStateReactive = Container.Resolve<LevelStateReactive>()
+                },
+                Container));
         }
 
         private void CreateLevelUI()
-        {
-            CreateEntity<LevelUiEntity, LevelUiEntity.Ctx>(new LevelUiEntity.Ctx
-            {
-                ScoresReactive = _scoresReactive,
-                LevelTimeReactive = _levelTimeReactive,
-                LevelLoadReactive = Container.Resolve<LevelLoadReactive>(),
-                UiContent = Container.Resolve<ContentProvider>().UiContent,
-                Canvas = Context.Canvas,
-                ScoreGoal = Context.LevelConfig.ScoreGoal,
-                LevelStateReactive = Container.Resolve<IReadOnlyLevelStateReactive>(),
-                LevelIndex = Context.LevelIndex
-            });
+        {            
+            AddDisposable(new LevelUiEntity(new LevelUiEntity.Ctx
+                {
+                    ScoresReactive = _scoresReactive,
+                    LevelTimeReactive = _levelTimeReactive,
+                    LevelLoadReactive = Container.Resolve<LevelLoadReactive>(),
+                    UiContent = Container.Resolve<ContentProvider>().UiContent,
+                    Canvas = _ctx.Canvas,
+                    ScoreGoal = _ctx.LevelConfig.ScoreGoal,
+                    LevelStateReactive = Container.Resolve<IReadOnlyLevelStateReactive>(),
+                    LevelIndex = _ctx.LevelIndex
+                },
+                Container));
         }
 
         private void CreateTimer()
         {
-            CreateEntity<LevelTimerEntity, LevelTimerEntity.Ctx>(new LevelTimerEntity.Ctx
-            {
-                LevelTimeReactive = _levelTimeReactive,
-                LevelConfig = Context.LevelConfig,
-                LevelStateReactive = Container.Resolve<LevelStateReactive>()
-            });
+            AddDisposable(new LevelTimerEntity(new LevelTimerEntity.Ctx
+                {
+                    LevelTimeReactive = _levelTimeReactive,
+                    LevelConfig = _ctx.LevelConfig,
+                    LevelStateReactive = Container.Resolve<LevelStateReactive>()
+                },
+                Container));
         }
 
         private void CreateEnvironment()
         {
-            var view = Object.Instantiate(Context.LevelConfig.EnvironmentPrefab);
+            var view = Object.Instantiate(_ctx.LevelConfig.EnvironmentPrefab);
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }
 

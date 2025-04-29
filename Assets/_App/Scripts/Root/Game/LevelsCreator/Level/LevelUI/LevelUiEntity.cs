@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
 {
-    public class LevelUiEntity : BaseEntity<LevelUiEntity.Ctx>
+    public class LevelUiEntity : BaseEntity
     {
         public struct Ctx
         {
@@ -20,24 +20,26 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             public Transform Canvas;
             public int ScoreGoal;
             public int LevelIndex;
-        }
-
-        protected override void Initialize()
+        }        
+        
+        private Ctx _ctx; 
+        
+        public LevelUiEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
+            _ctx = context;
             CreateView();
         }
-        
         private void CreateView()
         {
-            var view = Object.Instantiate(Context.UiContent.LevelUiPrefab, Context.Canvas);
+            var view = Object.Instantiate(_ctx.UiContent.LevelUiPrefab, _ctx.Canvas);
             view.SetCtx(new LevelUiView.Ctx
             {
-                ScoresReactive = Context.ScoresReactive,
-                LevelTimeReactive = Context.LevelTimeReactive,
-                LevelLoadReactive = Context.LevelLoadReactive,
-                ScoreGoal = Context.ScoreGoal,
-                LevelStateReactive = Context.LevelStateReactive,
-                LevelIndex = Context.LevelIndex
+                ScoresReactive = _ctx.ScoresReactive,
+                LevelTimeReactive = _ctx.LevelTimeReactive,
+                LevelLoadReactive = _ctx.LevelLoadReactive,
+                ScoreGoal = _ctx.ScoreGoal,
+                LevelStateReactive = _ctx.LevelStateReactive,
+                LevelIndex = _ctx.LevelIndex
             });
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }

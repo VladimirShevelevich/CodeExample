@@ -2,11 +2,10 @@
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
 using UniRx;
-using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer
 {
-    public class LevelTimerEntity : BaseEntity<LevelTimerEntity.Ctx>
+    public class LevelTimerEntity : BaseEntity
     {
         public struct Ctx
         {
@@ -14,11 +13,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer
             public LevelTimeReactive LevelTimeReactive;
             public LevelConfig LevelConfig;
         }
-
-        protected override void Initialize()
+        
+        private readonly Ctx _ctx; 
+        
+        public LevelTimerEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
-            Context.LevelTimeReactive.TimeLeft.Value = TimeSpan.FromSeconds(Context.LevelConfig.TimeInSeconds);
-            AddDisposable(Context.LevelStateReactive.CurrentState.Where(state => state == LevelEntity.LevelState.Play)
+            _ctx = context;
+            
+            _ctx.LevelTimeReactive.TimeLeft.Value = TimeSpan.FromSeconds(_ctx.LevelConfig.TimeInSeconds);
+            AddDisposable(_ctx.LevelStateReactive.CurrentState.Where(state => state == LevelEntity.LevelState.Play)
                 .Take(1)
                 .Subscribe(_ =>
                 {
@@ -30,7 +33,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer
         {
             AddDisposable(Observable.Timer(TimeSpan.FromSeconds(1))
                 .Repeat()
-                .Where(_ => Context.LevelStateReactive.CurrentState.Value == LevelEntity.LevelState.Play)
+                .Where(_ => _ctx.LevelStateReactive.CurrentState.Value == LevelEntity.LevelState.Play)
                 .Subscribe(_ =>
                 {
                     UpdateTime(1);
@@ -39,13 +42,13 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer
 
         private void UpdateTime(int secondsDecrease)
         {
-            if (Context.LevelTimeReactive.TimeLeft.Value < TimeSpan.FromSeconds(1))
+            if (_ctx.LevelTimeReactive.TimeLeft.Value < TimeSpan.FromSeconds(1))
             {
-                Context.LevelTimeReactive.OnTimeIsOver.Notify();
+                _ctx.LevelTimeReactive.OnTimeIsOver.Notify();
                 return;
             }
                 
-            Context.LevelTimeReactive.TimeLeft.Value -= TimeSpan.FromSeconds(secondsDecrease);
+            _ctx.LevelTimeReactive.TimeLeft.Value -= TimeSpan.FromSeconds(secondsDecrease);
         }
     }
 }

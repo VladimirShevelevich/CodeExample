@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _App.Scripts.Root
 {
-    public class RootEntity : BaseEntity<RootEntity.Ctx>
+    public class RootEntity : BaseEntity
     {
         public struct Ctx
         {
@@ -13,19 +13,23 @@ namespace _App.Scripts.Root
             public Transform UiCanvas;
         }
         
-        protected override void Initialize()
+        private readonly Ctx _ctx;
+
+        public RootEntity(Ctx ctx, Container parentContainer) : base(parentContainer)
         {
-            Container.Register<ContentProvider>(Context.ContentProvider);
+            _ctx = ctx;
+            Container.Register<ContentProvider>(_ctx.ContentProvider);
             
             CreateGameEntity();
         }
 
         private void CreateGameEntity()
         {
-            CreateEntity<GameEntity, GameEntity.Ctx>(new GameEntity.Ctx
+            AddDisposable(new GameEntity(new GameEntity.Ctx
             {
-                Canvas = Context.UiCanvas
-            });
+                Canvas = _ctx.UiCanvas
+            }, 
+                Container));
         }
     }
 }

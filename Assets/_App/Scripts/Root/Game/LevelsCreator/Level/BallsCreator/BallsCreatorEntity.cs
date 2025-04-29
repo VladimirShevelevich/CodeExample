@@ -9,7 +9,7 @@ using UniRx;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
 {
-    public class BallsCreatorEntity : BaseEntity<BallsCreatorEntity.Ctx>
+    public class BallsCreatorEntity : BaseEntity
     {
         public struct Ctx
         {
@@ -18,9 +18,13 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
         }
 
         private readonly ReactiveEvent<CreateBallData> _createBall = new();
+
+        private Ctx _ctx; 
         
-        protected override void Initialize()
+        public BallsCreatorEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
+            _ctx = context;
+            
             AddDisposable(_createBall);
             AddDisposable(_createBall.SubscribeWithSkip(CreateBall));
             
@@ -32,8 +36,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
             AddDisposable(new BallsCreatorModel(new BallsCreatorModel.Ctx
             {
                 CreateBall = _createBall,
-                BallsSpawnContent = Context.BallsSpawnContent,
-                LevelStateReactive = Context.LevelStateReactive
+                BallsSpawnContent = _ctx.BallsSpawnContent,
+                LevelStateReactive = _ctx.LevelStateReactive
             }));
         }
 

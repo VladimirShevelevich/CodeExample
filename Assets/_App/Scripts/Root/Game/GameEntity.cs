@@ -5,25 +5,30 @@ using UnityEngine;
 
 namespace _App.Scripts.Root.Game
 {
-    public class GameEntity : BaseEntity<GameEntity.Ctx>
+    public class GameEntity : BaseEntity
     {
         public struct Ctx
         {
             public Transform Canvas;
         }
+        
+        private readonly Ctx _ctx; 
 
-        protected override void Initialize()
+        public GameEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
+            _ctx = context;
+
             CreateLevelCreator();
         }
 
         private void CreateLevelCreator()
         {
-            CreateEntity<LevelCreatorEntity, LevelCreatorEntity.Ctx>(new LevelCreatorEntity.Ctx
-            {
-                LevelsConfigs = Container.Resolve<ContentProvider>().Levels,
-                Canvas = Context.Canvas
-            });
+            AddDisposable(new LevelCreatorEntity(new LevelCreatorEntity.Ctx
+                {
+                    LevelsConfigs = Container.Resolve<ContentProvider>().Levels,
+                    Canvas = _ctx.Canvas
+                },
+                Container));
         }
     }
 }

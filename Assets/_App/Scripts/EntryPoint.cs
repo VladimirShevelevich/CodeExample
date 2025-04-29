@@ -1,5 +1,6 @@
 ﻿using _App.Scripts.Content;
 using _App.Scripts.Root;
+using _App.Scripts.Tools.Core;
 using UnityEngine;
 
 namespace _App.Scripts
@@ -18,11 +19,12 @@ namespace _App.Scripts
 
         private void CreateRootEntity()
         {
-            _rootEntity = RootEntity.CreateEntityManually<RootEntity, RootEntity.Ctx>(new RootEntity.Ctx
+            _rootEntity = new RootEntity(new RootEntity.Ctx
             {
                 ContentProvider = _contentProvider,
                 UiCanvas = _uiCanvas
-            });
+            }, 
+                new Container());
         }
 
         private void OnDestroy()

@@ -2,12 +2,11 @@
 using _App.Scripts.Root.Game.LevelsCreator.Level;
 using _App.Scripts.Root.Game.LevelsCreator.Reactive;
 using _App.Scripts.Tools.Core;
-using _App.Scripts.Tools.Reactive;
 using UnityEngine;
 
 namespace _App.Scripts.Root.Game.LevelsCreator
 {
-    public class LevelCreatorEntity : BaseEntity<LevelCreatorEntity.Ctx>
+    public class LevelCreatorEntity : BaseEntity
     {
         public struct Ctx
         {
@@ -15,40 +14,50 @@ namespace _App.Scripts.Root.Game.LevelsCreator
             public Transform Canvas;
         }
 
-        private readonly ReactiveEvent<int> _loadLevelByIndex = new();
+        private readonly Ctx _ctx; 
+        private int _currentLevelIndex;
+        
         private readonly LevelLoadReactive _levelLoadReactive = new();
         private IDisposable _currentLevel;
 
-        protected override void Initialize()
+        public LevelCreatorEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
-            AddDisposable(_loadLevelByIndex);
-            AddDisposable(_loadLevelByIndex.SubscribeWithSkip(LoadLevelByIndex));
-            AddDisposable(_levelLoadReactive);
+            _ctx = context;
             Container.Register<LevelLoadReactive>(_levelLoadReactive);
             
-            CreateModel();
+            AddDisposable(_levelLoadReactive);
+            AddDisposable(_levelLoadReactive.RestartTrigger.Subscribe(RestartLevel));
+            AddDisposable(_levelLoadReactive.NextLevelTrigger.Subscribe(LoadNextLevel));
+            
+            LoadLevelByIndex(0);
         }
 
-        private void CreateModel()
+        private void RestartLevel()
         {
-            AddDisposable(new LevelCreatorModel(new LevelCreatorModel.Ctx
-            {
-                LoadLevelByIndex = _loadLevelByIndex,
-                LevelLoadReactive = _levelLoadReactive,
-                LevelsAmount = Context.LevelsConfigs.Length
-            }));
+            LoadLevelByIndex(_currentLevelIndex);
         }
 
         private void LoadLevelByIndex(int index)
         {
             _currentLevel?.Dispose();
-            var levelConfig = Context.LevelsConfigs[index];
-            _currentLevel = CreateEntity<LevelEntity, LevelEntity.Ctx>(new LevelEntity.Ctx
-            {
-                LevelConfig = levelConfig,
-                Canvas = Context.Canvas,
-                LevelIndex = index
-            });
+            var levelConfig = _ctx.LevelsConfigs[index];
+            AddDisposable(new LevelEntity(new LevelEntity.Ctx
+                {
+                    LevelConfig = levelConfig,
+                    Canvas = _ctx.Canvas,
+                    LevelIndex = index
+                },
+                Container));
+        }
+
+        private void LoadNextLevel()
+        {
+            if (_currentLevelIndex + 1 >= _ctx.LevelsConfigs.Length)
+                _currentLevelIndex = 0;
+            else
+                _currentLevelIndex++;
+            
+            LoadLevelByIndex(_currentLevelIndex);
         }
     }
 }
