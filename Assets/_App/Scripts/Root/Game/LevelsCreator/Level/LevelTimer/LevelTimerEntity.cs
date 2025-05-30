@@ -20,13 +20,18 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer
         {
             _ctx = context;
             
-            _ctx.LevelTimeReactive.TimeLeft.Value = TimeSpan.FromSeconds(_ctx.LevelConfig.TimeInSeconds);
+            SetInitialTime();
             AddDisposable(_ctx.LevelStateReactive.CurrentState.Where(state => state == LevelEntity.LevelState.Play)
                 .Take(1)
                 .Subscribe(_ =>
                 {
                     ExecuteTimer();
                 }));
+        }
+
+        private void SetInitialTime()
+        {
+            _ctx.LevelTimeReactive.TimeLeft.Value = TimeSpan.FromSeconds(_ctx.LevelConfig.TimeInSeconds);
         }
 
         private void ExecuteTimer()

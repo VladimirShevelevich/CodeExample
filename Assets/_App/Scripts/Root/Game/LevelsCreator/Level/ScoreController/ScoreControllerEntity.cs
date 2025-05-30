@@ -8,7 +8,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
     {
         public struct Ctx
         {
-            public BallsCaughtReactive BallsCaughtReactive;
             public ScoresReactive ScoresReactive;
             public int ScoreGoal;
         }        
@@ -18,12 +17,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
         public ScoreControllerEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
             _ctx = context;
-            AddDisposable(_ctx.BallsCaughtReactive.OnCaught.SubscribeWithSkip(OnBallCaught));
-        }
-
-        private void OnBallCaught(BallInfo ballInfo)
-        {
-            AddScore(ballInfo.ScoreReward);
         }
 
         private void AddScore(int score)

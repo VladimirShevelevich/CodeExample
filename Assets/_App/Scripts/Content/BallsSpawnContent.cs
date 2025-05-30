@@ -38,7 +38,7 @@ namespace _App.Scripts.Content
     [Serializable]
     public struct BallsSpawnArea
     {
-        public float Wight;
+        public float WightRange;
         public float Height;
     }
 }

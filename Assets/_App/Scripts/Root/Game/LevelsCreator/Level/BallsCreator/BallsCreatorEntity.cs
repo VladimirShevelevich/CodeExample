@@ -48,7 +48,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
             var newBallType = randomValue > _ctx.BallsSpawnContent.SpecialBallChance ? BallType.Regular : BallType.Special;
             var ballInfo = _ctx.BallsSpawnContent.GetBallInfoByType(newBallType);
             var spawnArea = _ctx.BallsSpawnContent.SpawnArea;
-            var position = new Vector2(Random.Range(-spawnArea.Wight/2, spawnArea.Wight/2), Random.Range(-spawnArea.Height/2, spawnArea.Height/2));
+            var position = new Vector2(Random.Range(-spawnArea.WightRange/2, spawnArea.WightRange/2), spawnArea.Height);
             
             CreateBall(new CreateBallData
             {
@@ -62,7 +62,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
             var entity = new BallEntity(new BallEntity.Ctx
                 {
                     CreateBallData = createBallData,
-                    BallsCaughtReactive = Container.Resolve<BallsCaughtReactive>(),
                     LevelStateReactive = Container.Resolve<LevelStateReactive>()
                 },
                 Container);

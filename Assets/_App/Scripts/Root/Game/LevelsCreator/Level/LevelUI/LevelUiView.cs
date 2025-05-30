@@ -64,7 +64,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
 
         private void OnPlayClick()
         {
-            _ctx.LevelStateReactive.PlayTrigger.Notify();
+            _ctx.LevelStateReactive.StartPlayTrigger.Notify();
         }
 
         private void OnNextLevelClick()

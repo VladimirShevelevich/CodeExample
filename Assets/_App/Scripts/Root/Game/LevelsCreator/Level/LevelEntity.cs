@@ -30,11 +30,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
 
         private readonly Ctx _ctx; 
         
-        private readonly BallsCaughtReactive _ballsCaughtReactive = new();
         private readonly ScoresReactive _scoresReactive = new();
         private readonly LevelTimeReactive _levelTimeReactive = new();
         private readonly LevelStateReactive _levelStateReactive = new();
-        
 
         public LevelEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
@@ -42,40 +40,30 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             
             MarkDisposables();
             RegisterDependencies();
-            
-            AddDisposable(_levelTimeReactive.OnTimeIsOver.Subscribe(OnTimeIsOver));
-            AddDisposable(_scoresReactive.OnScoreGoalCompleted.Subscribe(OnScoreGoalCompleted));
-            AddDisposable(_levelStateReactive.PlayTrigger.Subscribe(OnPlayTrigger));
 
             CreateBallsCreator();
             CreateScoresController();
             CreateLevelUI();
             CreateTimer();
             CreateEnvironment();
-            
-            _levelStateReactive.CurrentState.Value = LevelState.Start;
+            CreateLevelStateHandler();
         }
 
-        private void OnPlayTrigger()
+        private void CreateLevelStateHandler()
         {
-            _levelStateReactive.CurrentState.Value = LevelState.Play;
+            var ctx = new LevelStateHandler.Ctx
+            {
+                LevelStateReactive = _levelStateReactive,
+                ScoresReactive = _scoresReactive,
+                LevelTimeReactive = _levelTimeReactive
+            };
+            AddDisposable(new LevelStateHandler(ctx, Container));
         }
-
-        private void OnScoreGoalCompleted()
-        {
-            _levelStateReactive.CurrentState.Value = LevelState.Win;
-        }
-
-        private void OnTimeIsOver()
-        {
-            _levelStateReactive.CurrentState.Value = LevelState.Fail;
-        }
-
+        
         private void CreateScoresController()
         {            
             AddDisposable(new ScoreControllerEntity(new ScoreControllerEntity.Ctx
                 {
-                    BallsCaughtReactive = _ballsCaughtReactive,
                     ScoresReactive = _scoresReactive,
                     ScoreGoal = _ctx.LevelConfig.ScoreGoal
                 },
@@ -127,16 +115,12 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
 
         private void RegisterDependencies()
         {
-            Container.Register<BallsCaughtReactive>(_ballsCaughtReactive);
             Container.Register<ScoresReactive>(_scoresReactive);
-            Container.Register<ScoresReactive>(_scoresReactive);
-            Container.Register<LevelStateReactive>(_levelStateReactive);
             Container.Register<LevelStateReactive>(_levelStateReactive);
         }
 
         private void MarkDisposables()
         {
-            AddDisposable(_ballsCaughtReactive);
             AddDisposable(_scoresReactive);
             AddDisposable(_levelTimeReactive);
             AddDisposable(_levelStateReactive);

@@ -13,7 +13,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
     {
         public struct Ctx
         {
-            public BallsCaughtReactive BallsCaughtReactive;
             public LevelStateReactive LevelStateReactive;
             
             public CreateBallData CreateBallData;
@@ -50,7 +49,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
             if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
                 return;
             
-            _ctx.BallsCaughtReactive.OnCaught.Notify(_ctx.CreateBallData.BallInfo);
             _ballViewReactive.HideTrigger.Notify();
             _wasClicked = true;
         }
@@ -58,7 +56,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         private void CreateView()
         {
             var prefab = _ctx.CreateBallData.BallInfo.Prefab;
-            var position = new Vector3(_ctx.CreateBallData.Position.x, 0, _ctx.CreateBallData.Position.y);
+            var position = new Vector3(_ctx.CreateBallData.Position.x, _ctx.CreateBallData.Position.y, 0);
             var view = Object.Instantiate(prefab, position, Quaternion.identity);
             view.SetCtx(new BallView.Ctx
             {

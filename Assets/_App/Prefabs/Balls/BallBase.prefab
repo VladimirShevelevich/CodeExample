@@ -4924,6 +4924,7 @@ GameObject:
   - component: {fileID: 2352578494088383727}
   - component: {fileID: 8284437086788119551}
   - component: {fileID: 2152295436483948672}
+  - component: {fileID: 7310778623569207325}
   m_Layer: 0
   m_Name: BallBase
   m_TagString: Untagged
@@ -4960,7 +4961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e556d9da63a47418dd900f996eec2c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particleSystem: {fileID: 8346319050338486691}
   _model: {fileID: 4886924759013003084}
 --- !u!135 &2152295436483948672
 SphereCollider:
@@ -4977,9 +4977,36 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!54 &7310778623569207325
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6858779179225269500}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -21,6 +21,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         {
             _ctx = ctx;
             _ctx.BallViewReactive.HideTrigger.Subscribe(Hide).AddTo(this);
+            
+            PlayShowVFX();
+        }
+
+        private void PlayShowVFX()
+        {
+            transform.localScale = Vector3.zero;
+            transform.DOScale(Vector3.one, 0.25f).
+                SetLink(gameObject);
         }
 
         private void Hide()

@@ -23,7 +23,8 @@ namespace _App.Scripts.Root.Game
 
         private void CreateLevelCreator()
         {
-            AddDisposable(new LevelCreatorEntity(new LevelCreatorEntity.Ctx
+            AddDisposable(new LevelCreatorEntity(
+                new LevelCreatorEntity.Ctx
                 {
                     LevelsConfigs = Container.Resolve<ContentProvider>().Levels,
                     Canvas = _ctx.Canvas

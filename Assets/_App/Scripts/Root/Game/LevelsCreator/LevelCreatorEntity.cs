@@ -41,7 +41,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator
         {
             _currentLevel?.Dispose();
             var levelConfig = _ctx.LevelsConfigs[index];
-            
             var entity = new LevelEntity(new LevelEntity.Ctx
                 {
                     LevelConfig = levelConfig,
