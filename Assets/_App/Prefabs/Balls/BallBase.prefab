@@ -4879,8 +4879,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2552501543612602516}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -4969,7 +4969,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6858779179225269500}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6a399435458ff6a48964105875712195, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

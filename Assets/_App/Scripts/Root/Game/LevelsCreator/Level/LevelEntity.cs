@@ -2,6 +2,7 @@
 using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator;
 using _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer;
 using _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI;
+using _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar;
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController;
 using _App.Scripts.Root.Game.LevelsCreator.Reactive;
@@ -41,6 +42,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             MarkDisposables();
             RegisterDependencies();
 
+            CreatePlayerBar();
             CreateBallsCreator();
             CreateScoresController();
             CreateLevelUI();
@@ -68,6 +70,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
                     ScoreGoal = _ctx.LevelConfig.ScoreGoal
                 },
                 Container));
+        }
+
+        private void CreatePlayerBar()
+        {
+            var ctx = new PlayerBarEntity.Ctx
+            {
+                PlayerBarContent = Container.Resolve<ContentProvider>().PlayerBarContent
+            };
+            AddDisposable(new PlayerBarEntity(ctx, Container));
         }
 
         private void CreateBallsCreator()
