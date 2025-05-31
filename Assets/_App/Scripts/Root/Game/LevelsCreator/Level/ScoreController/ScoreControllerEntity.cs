@@ -1,5 +1,4 @@
-﻿using _App.Scripts.Content;
-using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
+﻿using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
 using _App.Scripts.Tools.Core;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
@@ -17,6 +16,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.ScoreController
         public ScoreControllerEntity(Ctx context, Container parentContainer) : base(parentContainer)
         {
             _ctx = context;
+            AddDisposable(_ctx.ScoresReactive.AddScoreTrigger.Subscribe(AddScore));
         }
 
         private void AddScore(int score)

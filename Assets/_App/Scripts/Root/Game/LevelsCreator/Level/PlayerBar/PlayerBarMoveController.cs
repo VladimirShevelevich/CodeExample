@@ -21,17 +21,36 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
         {
             _ctx = context;
             AddDisposable(Observable.EveryUpdate().Subscribe(_=> EveryUpdate()));
+            AddDisposable(_ctx.ViewReactive.CurrentPosition.Subscribe(HandlePositionChange));
+        }
+
+        private void HandlePositionChange(Vector3 position)
+        {
+            if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
+                return;
+
+            _ctx.ViewReactive.TargetRotation.Value = position.x > 0 ? 30 : -30;
         }
 
         private void EveryUpdate()
         {
+            SetTargetVelocity();
+        }
+
+        private void SetTargetVelocity()
+        {
             if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
-                _ctx.ViewReactive.Velocity.Value = Vector2.zero;
+                _ctx.ViewReactive.TargetMoveVelocity.Value = Vector2.zero;
 
             var horizontalInput = Input.GetAxis("Horizontal");
             var verticalInput = Input.GetAxis("Vertical");
-            var velocity = new Vector2(horizontalInput, verticalInput) * _ctx.PlayerBarContent.MoveSpeed * Time.deltaTime;
-            _ctx.ViewReactive.Velocity.Value = velocity;
+            var velocity = new Vector2(horizontalInput, verticalInput) * _ctx.PlayerBarContent.MoveSpeed;
+            _ctx.ViewReactive.TargetMoveVelocity.Value = velocity;
+        }
+
+        private void SetTargetRotation()
+        {
+            
         }
     }
 }

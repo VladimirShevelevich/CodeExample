@@ -7,6 +7,7 @@ namespace _App.Scripts.Content
     public class ContentProvider : ScriptableObject
     {
         [field: SerializeField] public BallsSpawnContent BallsSpawnContent;
+        [field: SerializeField] public GemsContent GemsContent;
         [field: SerializeField] public UiContent UiContent;
         [field: SerializeField] public PlayerBarContent PlayerBarContent;
         [field: SerializeField] public LevelConfig[] Levels { get; private set; }

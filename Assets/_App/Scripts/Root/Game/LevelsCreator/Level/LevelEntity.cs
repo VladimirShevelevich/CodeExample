@@ -1,5 +1,6 @@
 ﻿using _App.Scripts.Content;
 using _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator;
+using _App.Scripts.Root.Game.LevelsCreator.Level.GemsCreator;
 using _App.Scripts.Root.Game.LevelsCreator.Level.LevelTimer;
 using _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI;
 using _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar;
@@ -44,6 +45,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
 
             CreatePlayerBar();
             CreateBallsCreator();
+            CreateGemsCreator();
             CreateScoresController();
             CreateLevelUI();
             CreateTimer();
@@ -86,6 +88,16 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level
             AddDisposable(new BallsCreatorEntity(new BallsCreatorEntity.Ctx
                 {
                     BallsSpawnContent = Container.Resolve<ContentProvider>().BallsSpawnContent,
+                    LevelStateReactive = Container.Resolve<LevelStateReactive>()
+                },
+                Container));
+        }
+
+        private void CreateGemsCreator()
+        {
+            AddDisposable(new GemsCreatorEntity(new GemsCreatorEntity.Ctx
+                {
+                    GemsContent = Container.Resolve<ContentProvider>().GemsContent,
                     LevelStateReactive = Container.Resolve<LevelStateReactive>()
                 },
                 Container));

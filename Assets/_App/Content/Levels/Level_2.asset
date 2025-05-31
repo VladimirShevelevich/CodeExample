@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb4722f0935468190fdaf57207626b8, type: 3}
   m_Name: Level_2
   m_EditorClassIdentifier: 
-  <TimeInSeconds>k__BackingField: 12
+  <TimeInSeconds>k__BackingField: 60
   <ScoreGoal>k__BackingField: 20
   <EnvironmentPrefab>k__BackingField: {fileID: 5346168253871203457, guid: e9d18dd2325f2c142ad3131f85429490, type: 3}

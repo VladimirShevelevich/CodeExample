@@ -42,7 +42,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
             var view = Object.Instantiate(prefab);
             view.SetCtx(new PlayerBarView.Ctx
             {
-                ViewReactive = _viewReactive
+                ViewReactive = _viewReactive,
+                PlayerBarContent = Container.Resolve<ContentProvider>().PlayerBarContent
             });
             AddDisposable(new GameObjectDisposer(view.gameObject));
         }

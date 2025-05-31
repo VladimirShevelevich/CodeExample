@@ -8,5 +8,6 @@ namespace _App.Scripts.Content
     {
         [field: SerializeField] public PlayerBarView Prefab { get; private set; }
         [field: SerializeField] public float MoveSpeed { get; private set; }
+        [field: SerializeField] public float TiltModifier { get; private set; }
     }
 }
