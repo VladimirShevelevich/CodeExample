@@ -15,7 +15,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
         {
             public StatsReactive StatsReactive;
             public ReactiveTrigger OnHidden;
-            public UpgradeContent UpgradeContent;
+            public StatsContent StatsContent;
             public Transform UiCanvas;
         } 
         
@@ -94,7 +94,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
 
         private void CreateView()
         {
-            var view = Object.Instantiate(_ctx.UpgradeContent.UpgradePopupPrefab, _ctx.UiCanvas);
+            var view = Object.Instantiate(_ctx.StatsContent.UpgradePopupPrefab, _ctx.UiCanvas);
             view.SetCtx(new UpgradePopupView.Ctx
             {
                 ViewReactive = _viewReactive

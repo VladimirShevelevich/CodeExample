@@ -28,7 +28,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
             AddDisposable(onPopupHidden);
             var ctx = new UpgradePopupEntity.Ctx
             {
-                UpgradeContent = Container.Resolve<ContentProvider>().UpgradeContent,
+                StatsContent = Container.Resolve<ContentProvider>().StatsContent,
                 StatsReactive = Container.Resolve<StatsReactive>(),
                 UiCanvas = _ctx.UiCanvas,
                 OnHidden = onPopupHidden,

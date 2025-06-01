@@ -10,6 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9fc525615744a1f8ba8fa9be95d4251, type: 3}
-  m_Name: UpgradeContent
+  m_Name: StatContent
   m_EditorClassIdentifier: 
   <UpgradePopupPrefab>k__BackingField: {fileID: -6312199201830000697, guid: 9714edcf1dc9d514aa0372fc45d055cf, type: 3}
+  <StatModifiersByLevel>k__BackingField:
+  - Key: 0
+    Value:
+    - 1
+    - 1.3
+    - 1.5
+  - Key: 1
+    Value:
+    - 1
+    - 1.3
+    - 1.5

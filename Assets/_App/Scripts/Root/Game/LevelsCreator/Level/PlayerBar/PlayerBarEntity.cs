@@ -1,5 +1,6 @@
 ﻿using _App.Scripts.Content;
 using _App.Scripts.Root.Game.LevelsCreator.Level.Reactive;
+using _App.Scripts.Root.Game.UpgradeService;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Disposables;
 using UnityEngine;
@@ -31,7 +32,9 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
             {
                 PlayerBarContent = _ctx.PlayerBarContent,
                 ViewReactive = _viewReactive,
-                LevelStateReactive = Container.Resolve<LevelStateReactive>()
+                LevelStateReactive = Container.Resolve<LevelStateReactive>(),
+                StatsReactive = Container.Resolve<StatsReactive>(),
+                StatsContent = Container.Resolve<ContentProvider>().StatsContent
             };
             AddDisposable(new PlayerBarMoveController(ctx, Container));
         }

@@ -15,7 +15,7 @@ MonoBehaviour:
   BallsSpawnContent: {fileID: 11400000, guid: 793b4dfe4a3735b4ba8fbb8173332895, type: 2}
   GemsContent: {fileID: 11400000, guid: 9b3cc4288feb89f498eb3f52ed745251, type: 2}
   UiContent: {fileID: 11400000, guid: 5dc905bc3729a7d479867e02d46d67c5, type: 2}
-  UpgradeContent: {fileID: 11400000, guid: a54133cc21345714083cea2962bdbfa1, type: 2}
+  StatsContent: {fileID: 11400000, guid: a54133cc21345714083cea2962bdbfa1, type: 2}
   PlayerBarContent: {fileID: 11400000, guid: 913500b0965db6c46aaffc5e2cd61b93, type: 2}
   <Levels>k__BackingField:
   - {fileID: 11400000, guid: ed907345f0a9a2b4aa595948e836918f, type: 2}
