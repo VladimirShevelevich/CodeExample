@@ -40,17 +40,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
         private void SetTargetVelocity()
         {
             if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
+            {
                 _ctx.ViewReactive.TargetMoveVelocity.Value = Vector2.zero;
+                return;
+            }
 
             var horizontalInput = Input.GetAxis("Horizontal");
             var verticalInput = Input.GetAxis("Vertical");
             var velocity = new Vector2(horizontalInput, verticalInput) * _ctx.PlayerBarContent.MoveSpeed;
             _ctx.ViewReactive.TargetMoveVelocity.Value = velocity;
-        }
-
-        private void SetTargetRotation()
-        {
-            
         }
     }
 }
