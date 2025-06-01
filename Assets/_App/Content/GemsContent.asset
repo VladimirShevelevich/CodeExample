@@ -16,4 +16,4 @@ MonoBehaviour:
     WightRange: 15
     HeightRange: 3
   <Prefab>k__BackingField: {fileID: 6096663353978398515, guid: 3f5c01827b93eec41b292400e982ea32, type: 3}
-  <Reward>k__BackingField: 1
+  <Reward>k__BackingField: 3

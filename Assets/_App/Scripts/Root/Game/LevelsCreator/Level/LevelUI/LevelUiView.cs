@@ -17,6 +17,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _nextLevelButton;
         [SerializeField] private Button _restartButton;
+        [SerializeField] private Button _upgradeButton;
         
         [SerializeField] private GameObject _startingView;
         [SerializeField] private GameObject _playingView;
@@ -41,6 +42,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             _playButton.OnClickAsObservable().Subscribe(_=> OnPlayClick()).AddTo(this);
             _nextLevelButton.OnClickAsObservable().Subscribe(_=> OnNextLevelClick()).AddTo(this);
             _restartButton.OnClickAsObservable().Subscribe(_=> OnRestartClick()).AddTo(this);
+            _upgradeButton.OnClickAsObservable().Subscribe(_=> OnUpgradeClick()).AddTo(this);
         }
 
         private void SetLevelIndexName(int levelIndex)
@@ -69,6 +71,11 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         private void OnRestartClick()
         {
             _ctx.ViewReactive.OnRestartClicked.Notify();
+        }
+        
+        private void OnUpgradeClick()
+        {
+            _ctx.ViewReactive.OnUpgradeClicked.Notify();
         }
 
         private void SetScoreText()

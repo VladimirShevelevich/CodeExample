@@ -91,7 +91,8 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         {
             var ctx = new UpgradePopupCreatorEntity.Ctx
             {
-
+                LevelUiViewReactive = _viewReactive,
+                UiCanvas = _ctx.Canvas
             };
             AddDisposable(new UpgradePopupCreatorEntity(ctx, Container));
         }

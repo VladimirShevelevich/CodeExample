@@ -16,6 +16,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public readonly ReactiveTrigger OnPlayButtonClicked = new();
         public readonly ReactiveTrigger OnNextLevelClicked = new();
         public readonly ReactiveTrigger OnRestartClicked = new();
+        public readonly ReactiveTrigger OnUpgradeClicked = new();
 
         public LevelUiViewReactive()
         {
@@ -27,6 +28,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
             AddDisposable(OnNextLevelClicked);
             AddDisposable(OnRestartClicked);
             AddDisposable(LevelIndex);
+            AddDisposable(OnUpgradeClicked);
         }
     }
 }
