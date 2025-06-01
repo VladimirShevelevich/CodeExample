@@ -21,6 +21,15 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.GemsCreator.Gem
             _ctx.GemViewReactive.HideTrigger.Subscribe(Hide).AddTo(this);
             
             SetRotationLoop();
+            PlayShowVFX();
+        }
+
+        private void PlayShowVFX()
+        {
+            var originalScale = transform.localScale;
+            transform.localScale = Vector3.zero;
+            transform.DOScale(originalScale, 0.25f).
+                SetLink(gameObject);
         }
 
         private void SetRotationLoop()

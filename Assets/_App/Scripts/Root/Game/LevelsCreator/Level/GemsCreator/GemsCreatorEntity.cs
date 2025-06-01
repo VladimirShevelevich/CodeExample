@@ -62,6 +62,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.GemsCreator
         private void OnGemHidden(IDisposable hiddenGemEntity)
         {
             hiddenGemEntity.Dispose();
+            CreateGem();
         }
     }
 }
