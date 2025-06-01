@@ -1,9 +1,11 @@
-﻿using _App.Scripts.Content;
+﻿using System.Linq;
+using _App.Scripts.Content;
 using _App.Scripts.Root.Game.UpgradeService;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Disposables;
 using _App.Scripts.Tools.Reactive;
 using UnityEngine;
+using UniRx;
 
 namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
 {
@@ -27,16 +29,32 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
             AddDisposable(_viewReactive.OnCloseClicked.Subscribe(OnCloseClicked));
             AddDisposable(_viewReactive.OnHidden.Subscribe(OnHidden));
 
-            SetStatsView();
+            InitStatsView();
+            UpdateIsApplyButtonEnabled();
             CreateView();
         }
 
-        private void SetStatsView()
+        private void InitStatsView()
         {
             foreach (var statLevel in _ctx.StatsReactive.StatLevels)
             {
                 _viewReactive.StatLevels.Add(statLevel.Key, statLevel.Value);
             }
+
+            AddDisposable(_ctx.StatsReactive.StatLevels.ObserveReplace().Subscribe(evt =>
+            {
+                _viewReactive.StatLevels[evt.Key] = evt.NewValue;
+            }));
+            
+            AddDisposable(_viewReactive.OnIncreaseClicked.SubscribeWithSkip(IncreaseStatView));
+            AddDisposable(_viewReactive.OnApplyClicked.Subscribe(ApplyStats));
+            AddDisposable(_viewReactive.OnResetClicked.Subscribe(ResetStatsViews));
+        }
+
+        private void IncreaseStatView(StatsServiceEntity.StatType statType)
+        {
+            _viewReactive.StatLevels[statType]++;
+            UpdateIsApplyButtonEnabled();
         }
 
         private void OnCloseClicked()
@@ -47,6 +65,31 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
         private void OnHidden()
         {
             _ctx.OnHidden.Notify();
+        }
+
+        private void ApplyStats()
+        {
+            var statTypes = _ctx.StatsReactive.StatLevels.Keys.ToArray();
+            foreach (var statType in statTypes)
+            {
+                _ctx.StatsReactive.StatLevels[statType] = _viewReactive.StatLevels[statType];
+            }
+            UpdateIsApplyButtonEnabled();
+        }
+
+        private void ResetStatsViews()
+        {
+            foreach (var statLevel in _ctx.StatsReactive.StatLevels)
+            {
+                _viewReactive.StatLevels[statLevel.Key] = statLevel.Value;
+            }
+            UpdateIsApplyButtonEnabled();
+        }
+
+        private void UpdateIsApplyButtonEnabled()
+        {
+            var enabled = _ctx.StatsReactive.StatLevels.Any(x => x.Value != _viewReactive.StatLevels[x.Key]);
+            _viewReactive.IsApplyButtonEnabled.Value = enabled;
         }
 
         private void CreateView()

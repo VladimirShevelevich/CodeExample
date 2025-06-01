@@ -15,7 +15,7 @@ MonoBehaviour:
   <SpawnInterval>k__BackingField: 2
   <SpawnArea>k__BackingField:
     WightRange: 25
-    Height: 25
+    Height: 20
   <SpecialBallChance>k__BackingField: 0.2
   BallInfos:
   - Key: 0
