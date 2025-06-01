@@ -26,7 +26,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
         {
             _ctx = context;
             AddDisposable(Observable.EveryUpdate().Subscribe(_=> EveryUpdate()));
-            AddDisposable(_ctx.ViewReactive.CurrentPosition.Subscribe(HandlePositionChange));
             
             SetSpeedWithStat();
         }
@@ -36,14 +35,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
             var currentStat = _ctx.StatsReactive.StatLevels[StatsServiceEntity.StatType.Speed];
             var statModifiers = _ctx.StatsContent.StatModifiersByLevel.First(x => x.Key == StatsServiceEntity.StatType.Speed).Value;
             _speedWithStat = _ctx.PlayerBarContent.MoveSpeed * statModifiers[currentStat];
-        }
-
-        private void HandlePositionChange(Vector3 position)
-        {
-            if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
-                return;
-
-            _ctx.ViewReactive.TargetRotation.Value = position.x > 0 ? 30 : -30;
         }
 
         private void EveryUpdate()

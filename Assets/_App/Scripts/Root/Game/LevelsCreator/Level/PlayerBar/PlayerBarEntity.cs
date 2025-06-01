@@ -23,9 +23,21 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
             AddDisposable(_viewReactive);
             
             CreateMoveController();
+            CreateScaleController();
             CreateView();
         }
-
+        
+        private void CreateScaleController()
+        {
+            var ctx = new PlayerBarScaleController.Ctx
+            {
+                ViewReactive = _viewReactive,
+                StatsReactive = Container.Resolve<StatsReactive>(),
+                StatsContent = Container.Resolve<ContentProvider>().StatsContent
+            };
+            AddDisposable(new PlayerBarScaleController(ctx, Container));
+        }
+        
         private void CreateMoveController()
         {
             var ctx = new PlayerBarMoveController.Ctx

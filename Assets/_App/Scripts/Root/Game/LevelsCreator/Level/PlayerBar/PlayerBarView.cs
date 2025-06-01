@@ -21,7 +21,16 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
             _ctx = ctx;
             Observable.EveryFixedUpdate().Subscribe(_ => EveryFixedUpdate()).
                 AddTo(this);
+            
+            ApplyScaleModifier();
         }
+
+        private void ApplyScaleModifier()
+        {
+            transform.localScale = new Vector3(transform.localScale.x * _ctx.ViewReactive.ScaleModifier.Value,
+                transform.localScale.y, transform.localScale.z);
+        }
+        
         private void EveryFixedUpdate()
         {
             HandleVelocity();

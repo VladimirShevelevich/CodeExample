@@ -7,14 +7,12 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
     public class PlayerBarViewReactive : BaseDisposable
     {
         public readonly ReactiveProperty<Vector2> TargetMoveVelocity = new();
-        public readonly ReactiveProperty<float> TargetRotation = new();
-        public readonly ReactiveProperty<Vector3> CurrentPosition = new();
+        public readonly ReactiveProperty<float> ScaleModifier = new();
 
         public PlayerBarViewReactive()
         {
             AddDisposable(TargetMoveVelocity);
-            AddDisposable(TargetRotation);
-            AddDisposable(CurrentPosition);
+            AddDisposable(ScaleModifier);
         }
     }
 }
