@@ -25,12 +25,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         
         public struct Ctx
         {
-            public LevelLoadReactive LevelLoadReactive;
-            public ScoresReactive ScoresReactive;
-            public LevelTimeReactive LevelTimeReactive;
-            public LevelStateReactive LevelStateReactive;
-            public int ScoreGoal;
-            public int LevelIndex;
+            public LevelUiViewReactive ViewReactive;
         }
 
         private Ctx _ctx;
@@ -38,23 +33,22 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
         public void SetCtx(Ctx ctx)
         {
             _ctx = ctx;
-            _ctx.LevelStateReactive.CurrentState.Subscribe(SetPlayStateView).AddTo(this);
-            _ctx.ScoresReactive.CurrentScore.Subscribe(SetScoreText).AddTo(this);
-            _ctx.LevelTimeReactive.TimeLeft.Subscribe(SetTimerText).AddTo(this);
+            _ctx.ViewReactive.CurrentState.Subscribe(SetLevelPlayStateView).AddTo(this);
+            _ctx.ViewReactive.CurrentScore.Subscribe(x => SetScoreText()).AddTo(this);
+            _ctx.ViewReactive.TimeLeft.Subscribe(SetTimerText).AddTo(this);
+            _ctx.ViewReactive.LevelIndex.Subscribe(SetLevelIndexName).AddTo(this);
             
             _playButton.OnClickAsObservable().Subscribe(_=> OnPlayClick()).AddTo(this);
             _nextLevelButton.OnClickAsObservable().Subscribe(_=> OnNextLevelClick()).AddTo(this);
             _restartButton.OnClickAsObservable().Subscribe(_=> OnRestartClick()).AddTo(this);
-            
-            SetLevelIndexName();
         }
 
-        private void SetLevelIndexName()
+        private void SetLevelIndexName(int levelIndex)
         {
-            _levelIndexText.text = $"Level: {_ctx.LevelIndex + 1}";
+            _levelIndexText.text = $"Level: {levelIndex}";
         }
 
-        private void SetPlayStateView(LevelEntity.LevelState levelState)
+        private void SetLevelPlayStateView(LevelEntity.LevelState levelState)
         {
             _startingView.SetActive(levelState == LevelEntity.LevelState.Start);
             _playingView.SetActive(levelState == LevelEntity.LevelState.Play);
@@ -64,22 +58,22 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI
 
         private void OnPlayClick()
         {
-            _ctx.LevelStateReactive.StartPlayTrigger.Notify();
+            _ctx.ViewReactive.OnPlayButtonClicked.Notify();
         }
 
         private void OnNextLevelClick()
         {
-            _ctx.LevelLoadReactive.NextLevelTrigger.Notify();
+            _ctx.ViewReactive.OnNextLevelClicked.Notify();
         }
 
         private void OnRestartClick()
         {
-            _ctx.LevelLoadReactive.RestartTrigger.Notify();
+            _ctx.ViewReactive.OnRestartClicked.Notify();
         }
 
-        private void SetScoreText(int score)
+        private void SetScoreText()
         {
-            _scoreText.text = $"Score: {score}/{_ctx.ScoreGoal}";
+            _scoreText.text = $"Score: {_ctx.ViewReactive.CurrentScore}/{_ctx.ViewReactive.ScoreGoal}";
         }
         
         private void SetTimerText(TimeSpan time)
