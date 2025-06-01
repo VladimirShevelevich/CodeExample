@@ -8,6 +8,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
     public class UpgradePopupView : MonoBehaviour
     {
         [SerializeField] private Button _closeButton;
+        [SerializeField] private UpgradeStatView[] _upgradeStatViews;
         
         public struct Ctx
         {
@@ -19,9 +20,21 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
         public void SetCtx(Ctx ctx)
         {
             _ctx = ctx;
-            _ctx.ViewReactive.HideTrigger.Subscribe(Hide).AddTo(this);
+            InitStatViews();
             
+            _ctx.ViewReactive.HideTrigger.Subscribe(Hide).AddTo(this);
             _closeButton.OnClickAsObservable().Subscribe(_=> OnCloseClick()).AddTo(this);
+        }
+
+        private void InitStatViews()
+        {
+            foreach (var upgradeStatView in _upgradeStatViews)
+            {
+                upgradeStatView.SetCtx(new UpgradeStatView.Ctx
+                {
+                    UpgradePopupViewReactive = _ctx.ViewReactive
+                });
+            }
         }
 
         private void Hide()

@@ -1,4 +1,5 @@
 ﻿using _App.Scripts.Content;
+using _App.Scripts.Root.Game.UpgradeService;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Reactive;
 using UnityEngine;
@@ -28,12 +29,13 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
             var ctx = new UpgradePopupEntity.Ctx
             {
                 UpgradeContent = Container.Resolve<ContentProvider>().UpgradeContent,
+                StatsReactive = Container.Resolve<StatsReactive>(),
                 UiCanvas = _ctx.UiCanvas,
-                OnHidden = onPopupHidden
+                OnHidden = onPopupHidden,
             };
             var entity = new UpgradePopupEntity(ctx, Container);
             AddDisposable(entity);
-            //AddDisposable(onPopupHidden.Subscribe(entity.Dispose));
+            AddDisposable(onPopupHidden.Subscribe(entity.Dispose));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using _App.Scripts.Content;
+using _App.Scripts.Root.Game.UpgradeService;
 using _App.Scripts.Tools.Core;
 using _App.Scripts.Tools.Disposables;
 using _App.Scripts.Tools.Reactive;
@@ -10,6 +11,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
     {
         public struct Ctx
         {
+            public StatsReactive StatsReactive;
             public ReactiveTrigger OnHidden;
             public UpgradeContent UpgradeContent;
             public Transform UiCanvas;
@@ -24,8 +26,17 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.LevelUI.UpgradePopup
             AddDisposable(_viewReactive);
             AddDisposable(_viewReactive.OnCloseClicked.Subscribe(OnCloseClicked));
             AddDisposable(_viewReactive.OnHidden.Subscribe(OnHidden));
-            
+
+            SetStatsView();
             CreateView();
+        }
+
+        private void SetStatsView()
+        {
+            foreach (var statLevel in _ctx.StatsReactive.StatLevels)
+            {
+                _viewReactive.StatLevels.Add(statLevel.Key, statLevel.Value);
+            }
         }
 
         private void OnCloseClicked()
