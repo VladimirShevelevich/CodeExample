@@ -38,10 +38,5 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
                 OnComplete(()=> gameObject.SetActive(false)).
                 SetLink(gameObject);
         }
-
-        void OnMouseDown()
-        {
-            _ctx.BallViewReactive.OnClicked.Notify();
-        }
     }
 }

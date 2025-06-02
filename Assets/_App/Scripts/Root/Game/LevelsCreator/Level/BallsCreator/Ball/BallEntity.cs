@@ -13,8 +13,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
     {
         public struct Ctx
         {
-            public LevelStateReactive LevelStateReactive;
-            
             public CreateBallData CreateBallData;
         }
 
@@ -26,7 +24,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
         {
             _ctx = context;
             AddDisposable(_ballViewReactive);
-            AddDisposable(_ballViewReactive.OnClicked.Subscribe(OnClicked));
             SetHiding();
             
             CreateView();
@@ -39,18 +36,6 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator.Ball
                 if (!_wasClicked)
                     _ballViewReactive.HideTrigger.Notify();
             }));
-        }
-
-        private void OnClicked()
-        {
-            if(_wasClicked)
-                return;
-            
-            if (_ctx.LevelStateReactive.CurrentState.Value != LevelEntity.LevelState.Play)
-                return;
-            
-            _ballViewReactive.HideTrigger.Notify();
-            _wasClicked = true;
         }
 
         private void CreateView()

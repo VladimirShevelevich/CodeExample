@@ -61,8 +61,7 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.BallsCreator
         {            
             var entity = new BallEntity(new BallEntity.Ctx
                 {
-                    CreateBallData = createBallData,
-                    LevelStateReactive = Container.Resolve<LevelStateReactive>()
+                    CreateBallData = createBallData
                 },
                 Container);
             AddDisposable(entity);
