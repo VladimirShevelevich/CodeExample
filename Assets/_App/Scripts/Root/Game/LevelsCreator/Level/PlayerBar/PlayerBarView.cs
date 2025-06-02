@@ -48,10 +48,5 @@ namespace _App.Scripts.Root.Game.LevelsCreator.Level.PlayerBar
             var tilt = transform.position.x * _ctx.PlayerBarContent.TiltModifier;
             _rigidBody.MoveRotation(Quaternion.Euler(0, 0, tilt));
         }
-
-        private void ApplyVelocity(Vector2 velocity)
-        {
-            _rigidBody.velocity = new Vector3(velocity.x, velocity.y);
-        }
     }
 }
